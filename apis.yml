@@ -52,7 +52,7 @@ common:
     name: Hashnode on X (Twitter)
     type: X
 created: '2026-03-24'
-modified: '2026-03-24'
+modified: '2026-04-28'
 position: Consumer
 description: Hashnode is a blogging platform for developers that provides a GraphQL API for managing posts, publications, and user data programmatically.
 maintainers:
