@@ -1,0 +1,13 @@
+{
+  "repo": "hashnode",
+  "feeds": [
+    {
+      "source": "https://hashnode.com/blog",
+      "feed_url": "https://hashnode.com/blog/rss.xml",
+      "title": "Hashnode's Official Blog",
+      "saved": 20
+    }
+  ],
+  "fetched": "2026-05-09T20:17:51Z",
+  "post_count": 20
+}
