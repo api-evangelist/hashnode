@@ -32,7 +32,7 @@ common:
     type: Blog
   - url: https://hashnode.com/changelog
     name: Changelog
-    type: Changelog
+    type: ChangeLog
   - url: https://hashnode.com/privacy-policy
     name: Privacy Policy
     type: PrivacyPolicy
