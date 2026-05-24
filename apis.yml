@@ -53,6 +53,8 @@ common:
   - url: https://twitter.com/hashnode
     name: Hashnode on X (Twitter)
     type: X
+  - type: LLMsTxt
+    url: https://hashnode.com/llms.txt
 created: '2026-03-24'
 modified: '2026-04-28'
 position: Consumer
