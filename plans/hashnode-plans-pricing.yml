@@ -4,109 +4,171 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Hashnode
 providerId: hashnode
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-06-13'
 tags:
   - Blogging
   - Content
   - Developer Community
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+description: Pricing plans for the Hashnode platform and API. Hashnode offers a free
+  individual tier, a Pro tier for enhanced writing features, a Startup team tier,
+  and a custom Enterprise tier. The GraphQL API itself is available on all tiers;
+  platform features and support levels differ across plans.
 plans:
   - id: hashnode-free
     name: Free
     type: freemium
-    description: Free entry tier for the Hashnode API surface. Intended for evaluation, prototyping, and
-      low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
+    description: Free forever plan for individual creators. Includes custom domain
+      mapping, AI writing assistance, basic analytics, and unlimited posts. Full
+      access to the Hashnode GraphQL Public API for reads and mutations.
     entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Hashnode API
-  - id: hashnode-pro
-    name: Professional
-    type: paid
-    description: Production tier for Hashnode. Provides higher quotas, priority support, and access to
-      the broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
+      - label: Platform Cost
+        description: Monthly cost for the Free plan
+        name: platform_cost
+        type: flat
+        metric: month
         limit: -1
         timeFrame: month
         geo: global
         domains: []
-        unit: 1000
-        price: TBD
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: API Rate Limit (Unauthenticated)
+        description: GraphQL requests per minute for unauthenticated callers, grouped by IP via Stellate CDN
+        name: rate_limit_unauth
+        type: rate
+        metric: requests_per_minute
+        limit: 2000
+        timeFrame: minute
+        geo: global
+        domains: []
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: API Rate Limit (Authenticated)
+        description: GraphQL requests per minute when using a Personal Access Token
+        name: rate_limit_auth
+        type: rate
+        metric: requests_per_minute
+        limit: 500
+        timeFrame: minute
+        geo: global
+        domains: []
+        unit: 1
+        price: '0.00'
         userMultiplied: false
     elements:
-      - name: All Production Endpoints
+      - name: Hashnode GraphQL API Access
+      - name: Custom Domain Mapping
+      - name: Unlimited Posts
+      - name: AI Writing Assistance
+      - name: Basic Analytics
+      - name: Community Support
+  - id: hashnode-pro
+    name: Pro
+    type: paid
+    description: Pro tier for individual creators wanting enhanced writing tools,
+      custom branding, and priority support. Includes AI chatbot, focused writing
+      mode, GitHub draft backup, and a Pro community badge.
+    entries:
+      - label: Platform Cost (Monthly)
+        description: Monthly subscription price for Hashnode Pro
+        name: platform_monthly
+        type: flat
+        metric: month
+        limit: 1
+        timeFrame: month
+        geo: global
+        domains: []
+        unit: 1
+        price: '7.00'
+        userMultiplied: false
+      - label: Platform Cost (Annual)
+        description: Annual subscription price for Hashnode Pro (equivalent to 2 months free)
+        name: platform_annual
+        type: flat
+        metric: year
+        limit: 1
+        timeFrame: year
+        geo: global
+        domains: []
+        unit: 1
+        price: '70.00'
+        userMultiplied: false
+      - label: API Rate Limit (Authenticated)
+        description: GraphQL requests per minute when using a Personal Access Token
+        name: rate_limit_auth
+        type: rate
+        metric: requests_per_minute
+        limit: 500
+        timeFrame: minute
+        geo: global
+        domains: []
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Hashnode GraphQL API Access
+      - name: All Free Features
+      - name: AI Chatbot (Unlimited)
+      - name: Focused Writing Mode
+      - name: Custom Branding (Remove Hashnode Logo)
+      - name: Pro Community Badge
+      - name: GitHub Draft Backup
+      - name: Priority Support
+      - name: Early Feature Access
+  - id: hashnode-startup
+    name: Startup
+    type: paid
+    description: Team plan for small organizations. Includes real-time collaborative
+      editing, AI search, inline review comments, unlimited version history, and
+      GitHub publishing for up to 5 seats.
+    entries:
+      - label: Platform Cost (Monthly)
+        description: Monthly subscription price for Hashnode Startup team plan (5 seats included)
+        name: platform_monthly
+        type: flat
+        metric: month
+        limit: 1
+        timeFrame: month
+        geo: global
+        domains: []
+        unit: 1
+        price: '199.00'
+        userMultiplied: false
+      - label: Additional Seats
+        description: Per additional seat per month beyond the included 5
+        name: additional_seat
+        type: metered
+        metric: seats
+        limit: -1
+        timeFrame: month
+        geo: global
+        domains: []
+        unit: 1
+        price: '10.00'
+        userMultiplied: false
+    elements:
+      - name: Hashnode GraphQL API Access
+      - name: 5 Team Seats Included
+      - name: Real-Time Collaborative Editing
+      - name: AI Search
+      - name: GitHub Publishing
+      - name: Inline Review Comments
+      - name: Unlimited Version History
       - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Hashnode API
   - id: hashnode-enterprise
     name: Enterprise
     type: enterprise
-    description: Custom-negotiated tier for Hashnode. Includes dedicated capacity, contractual SLAs, security
-      review, data residency options, and named technical account management.
+    description: Custom-negotiated enterprise tier for large organizations. Includes
+      unlimited members, headless CMS mode, dedicated capacity, contractual SLAs,
+      and named technical account management.
     entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
+      - label: Platform Cost
+        description: Custom pricing negotiated based on organization size and requirements
+        name: platform_cost
+        type: flat
+        metric: month
         limit: -1
         timeFrame: month
         geo: configurable
@@ -114,26 +176,17 @@ plans:
         unit: 1
         price: custom
         userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
     elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
+      - name: Hashnode GraphQL API Access
+      - name: Unlimited Members
+      - name: Headless CMS Mode
+      - name: All Startup Features
+      - name: Dedicated Infrastructure
       - name: Contractual SLA
-      - name: Security & Compliance Review
+      - name: Security and Compliance Review
       - name: Dedicated Account Manager
       - name: Custom Data Residency
-      - name: Hashnode API
+      - name: 24/7 Priority Support
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

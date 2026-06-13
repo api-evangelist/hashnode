@@ -1,65 +1,71 @@
 aid: hashnode
-url: https://raw.githubusercontent.com/api-evangelist/hashnode/refs/heads/main/apis.yml
-apis:
-  - aid: hashnode:hashnode-api
-    name: Hashnode API
-    tags:
-      - Blogging
-      - Content
-      - GraphQL
-    humanURL: https://apidocs.hashnode.com/
-    properties:
-      - url: https://apidocs.hashnode.com/
-        type: Documentation
-    description: The Hashnode API is a GraphQL API that allows developers to interact with the Hashnode blogging platform, manage posts, publications, and user data.
 name: Hashnode
+description: Hashnode is a blogging platform for developers with a GraphQL and REST
+  API for managing posts, series, newsletters, comments, and developer publication
+  content. The platform provides a single GraphQL endpoint supporting both public
+  read queries and authenticated mutations via Personal Access Token.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/hashnode/refs/heads/main/apis.yml
+created: '2026-06-13'
+modified: '2026-06-13'
+specificationVersion: '0.19'
 tags:
   - Blogging
-  - Content
-  - Developer Community
+  - Developer Platform
+  - GraphQL
+  - Content Management
+  - Publications
+  - Newsletters
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-access: 3rd-Party
+apis:
+  - aid: hashnode:hashnode-graphql-api
+    name: Hashnode GraphQL API
+    description: The Hashnode Public API is a GraphQL API that allows developers to
+      query publication data, manage posts and drafts, interact with newsletters,
+      and create content via mutations. All requests go through a single GraphQL
+      endpoint at https://gql.hashnode.com. Public read queries require no authentication;
+      all mutations require a Personal Access Token in the Authorization header.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://apidocs.hashnode.com/
+    baseURL: https://gql.hashnode.com
+    tags:
+      - GraphQL
+      - Blogging
+      - Posts
+      - Publications
+      - Newsletters
+      - Drafts
+      - Comments
+    properties:
+      - type: Documentation
+        url: https://apidocs.hashnode.com/
+      - type: GitHubOrg
+        url: https://github.com/Hashnode
+      - type: StarterKit
+        url: https://github.com/Hashnode/starter-kit
 common:
+  - type: Website
+    url: https://hashnode.com
+  - type: Documentation
+    url: https://apidocs.hashnode.com/
+  - type: GitHubOrg
+    url: https://github.com/Hashnode
   - type: LinkedIn
     url: https://www.linkedin.com/company/hashnode
-  - url: https://hashnode.com/
-    name: Hashnode Website
-    type: Website
-  - url: https://apidocs.hashnode.com/
-    name: Hashnode API Documentation
-    type: Documentation
-  - url: https://hashnode.com/blog
-    name: Hashnode Blog
-    type: Blog
-  - url: https://hashnode.com/changelog
-    name: Changelog
-    type: ChangeLog
-  - url: https://hashnode.com/privacy-policy
-    name: Privacy Policy
-    type: PrivacyPolicy
-  - url: https://hashnode.com/terms
-    name: Terms of Service
-    type: TermsOfService
-  - url: https://support.hashnode.com/
-    name: Support
-    type: Support
-  - url: https://github.com/hashnode
-    name: Hashnode GitHub Organization
-    type: GitHubOrg
-  - url: https://discord.gg/hashnode
-    name: Hashnode Discord Community
-    type: Discord
-  - url: https://twitter.com/hashnode
-    name: Hashnode on X (Twitter)
-    type: X
-  - type: LLMsTxt
-    url: https://hashnode.com/llms.txt
-created: '2026-03-24'
-modified: '2026-04-28'
-position: Consumer
-description: Hashnode is a blogging platform for developers that provides a GraphQL API for managing posts, publications, and user data programmatically.
+  - type: Blog
+    url: https://hashnode.com/blog
+  - type: Pricing
+    url: https://hashnode.com/pricing
+  - type: StatusPage
+    url: https://status.hashnode.com/
+  - type: X
+    url: https://x.com/hashnode
+  - type: Plans
+    url: plans/hashnode-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/hashnode-rate-limits.yml
+  - type: FinOps
+    url: finops/hashnode-finops.yml
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
-specificationVersion: '0.19'

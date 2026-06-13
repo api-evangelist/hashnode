@@ -11,7 +11,7 @@ providerId: hashnode
 publisherName: Hashnode
 serviceCategory: API
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-06-13'
 tags:
   - Blogging
   - Content
@@ -19,8 +19,11 @@ tags:
   - FinOps
   - Cost Management
   - FOCUS
-description: FinOps framework definition for the Hashnode API surface. Provides a FOCUS-aligned mapping
-  for cost allocation, usage measurement, and unit-economics reporting across the provider's APIs.
+description: "FinOps framework definition for Hashnode platform and API costs. Hashnode\
+  \ uses a subscription-based billing model: Free ($0), Pro ($7/month or $70/year),\
+  \ Startup ($199/month + $10/additional seat), and Enterprise (custom). The GraphQL\
+  \ API is included in all plans with no per-request charges; cost allocation focuses\
+  \ on seat counts and subscription tier selection."
 principles:
   - name: Visibility
     description: Make API consumption costs visible to engineering, product, and finance teams in near
