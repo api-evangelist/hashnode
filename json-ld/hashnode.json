@@ -1,0 +1,83 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "api": "https://pending.schema.org/WebAPI",
+    "graphql": "https://spec.graphql.org/"
+  },
+  "@type": "WebAPI",
+  "@id": "https://raw.githubusercontent.com/api-evangelist/hashnode/refs/heads/main/apis.yml",
+  "name": "Hashnode GraphQL API",
+  "description": "The Hashnode Public API is a GraphQL API that allows developers to query publication data, manage posts and drafts, interact with newsletters, and create content via mutations. All requests go through a single GraphQL endpoint at https://gql.hashnode.com. Public read queries require no authentication; all mutations require a Personal Access Token in the Authorization header.",
+  "url": "https://apidocs.hashnode.com/",
+  "endpointURL": "https://gql.hashnode.com",
+  "provider": {
+    "@type": "Organization",
+    "name": "Hashnode",
+    "url": "https://hashnode.com",
+    "sameAs": [
+      "https://github.com/Hashnode",
+      "https://www.linkedin.com/company/hashnode",
+      "https://x.com/hashnode"
+    ]
+  },
+  "documentation": "https://apidocs.hashnode.com/",
+  "termsOfService": "https://hashnode.com/terms",
+  "license": "https://hashnode.com/privacy",
+  "keywords": [
+    "GraphQL",
+    "Blogging",
+    "Developer Platform",
+    "Content Management",
+    "Publications",
+    "Newsletters",
+    "Posts",
+    "Drafts",
+    "Comments",
+    "Series",
+    "Tags"
+  ],
+  "additionalType": "https://spec.graphql.org/GraphQL",
+  "availableChannel": {
+    "@type": "ServiceChannel",
+    "serviceUrl": "https://gql.hashnode.com",
+    "name": "GraphQL Endpoint",
+    "description": "Single GraphQL endpoint for all Hashnode API queries and mutations"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "https://hashnode.com/pricing",
+    "priceCurrency": "USD",
+    "description": "Free and paid plans available"
+  },
+  "potentialAction": [
+    {
+      "@type": "ReadAction",
+      "name": "Query Publications",
+      "description": "Read publication data, posts, series, and tags without authentication"
+    },
+    {
+      "@type": "WriteAction",
+      "name": "Manage Content",
+      "description": "Create and manage posts, drafts, newsletters, and comments via authenticated mutations"
+    }
+  ],
+  "category": [
+    "Blogging",
+    "Developer Platform",
+    "GraphQL",
+    "Content Management",
+    "Publications",
+    "Newsletters"
+  ],
+  "subjectOf": [
+    {
+      "@type": "TechArticle",
+      "url": "https://apidocs.hashnode.com/",
+      "name": "Hashnode API Documentation"
+    }
+  ],
+  "sameAs": [
+    "https://github.com/Hashnode",
+    "https://github.com/Hashnode/starter-kit"
+  ]
+}
