@@ -2,17 +2,17 @@
   "repo": "hashnode",
   "feeds": [
     {
-      "source": "https://hashnode.com/blog/rss.xml",
-      "error": "HTTPError"
-    },
-    {
       "source": "https://hashnode.com/blog",
       "feed_url": "https://hashnode.com/blog",
       "title": "",
       "saved": 0,
       "method": "none"
+    },
+    {
+      "source": "https://www.linkedin.com/company/hashnode",
+      "error": "HTTPError"
     }
   ],
-  "fetched": "2026-06-07T00:00:00Z",
+  "fetched": "2026-06-14T20:42:17Z",
   "post_count": 20
 }
