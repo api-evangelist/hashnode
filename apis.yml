@@ -4,7 +4,7 @@ description: Hashnode is a blogging platform for developers with a GraphQL and R
   API for managing posts, series, newsletters, comments, and developer publication
   content. The platform provides a single GraphQL endpoint supporting both public
   read queries and authenticated mutations via Personal Access Token.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/hashnode/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -25,7 +25,7 @@ apis:
       and create content via mutations. All requests go through a single GraphQL
       endpoint at https://gql.hashnode.com. Public read queries require no authentication;
       all mutations require a Personal Access Token in the Authorization header.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://apidocs.hashnode.com/
     baseURL: https://gql.hashnode.com
     tags:
