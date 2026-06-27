@@ -43,7 +43,7 @@ apis:
         url: https://github.com/Hashnode
       - type: StarterKit
         url: https://github.com/Hashnode/starter-kit
-      - type: JSONLd
+      - type: JSONLD
         url: https://raw.githubusercontent.com/api-evangelist/hashnode/refs/heads/main/json-ld/hashnode.json
 common:
   - type: Website
