@@ -46,6 +46,10 @@ apis:
       - type: JSONLD
         url: https://raw.githubusercontent.com/api-evangelist/hashnode/refs/heads/main/json-ld/hashnode.json
 common:
+  - type: VulnerabilityDisclosure
+    url: security/hashnode-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/hashnode-domain-security.yml
   - type: Website
     url: https://hashnode.com
   - type: Documentation
