@@ -1,25 +1,33 @@
 aid: hashnode
 name: Hashnode
-description: Hashnode is a blogging platform for developers with a GraphQL and REST
-  API for managing posts, series, newsletters, comments, and developer publication
-  content. The platform provides a single GraphQL endpoint supporting both public
-  read queries and authenticated mutations via Personal Access Token.
+description: >-
+  Hashnode is a blogging platform for developers and engineering teams, offering
+  publications on a custom domain, a headless CMS mode, and a public GraphQL API
+  covering posts, drafts, publications, users, tags, series, comments and
+  documentation projects. The API is a single GraphQL endpoint with anonymous
+  introspection; authentication is a Personal Access Token in the Authorization
+  header, with no OAuth and no scopes. Since 13 May 2026 the API has been a paid
+  feature - anonymous public reads still work, but every publication-scoped read
+  and every write mutation requires the target publication to hold an active
+  Hashnode Pro plan. Hashnode publishes no OpenAPI and no MCP server, shipping an
+  official Agent Skill instead.
 accessModel:
   pricing: freemium
-  onboarding: unknown
+  onboarding: self-service
   trial: false
-  try_now: false
-  public: false
+  try_now: true
+  public: true
   label: Freemium
-  confidence: medium
+  confidence: high
   source:
   - plans
-  generated: '2026-07-22'
-  method: derived
+  - https://hashnode.com/pro
+  generated: '2026-08-13'
+  method: searched
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/hashnode.png
 url: https://raw.githubusercontent.com/api-evangelist/hashnode/refs/heads/main/apis.yml
 created: '2026-06-13'
-modified: '2026-07-20'
+modified: '2026-08-13'
 specificationVersion: '0.19'
 tags:
   - Blogging
@@ -28,29 +36,59 @@ tags:
   - Content Management
   - Publications
   - Newsletters
+  - Headless CMS
+  - Agent Skills
+  - Developer Community
+  - Documentation
 type: Index
 apis:
   - aid: hashnode:hashnode-graphql-api
     name: Hashnode GraphQL API
-    description: The Hashnode Public API is a GraphQL API that allows developers to
-      query publication data, manage posts and drafts, interact with newsletters,
-      and create content via mutations. All requests go through a single GraphQL
-      endpoint at https://gql.hashnode.com. Public read queries require no authentication;
-      all mutations require a Personal Access Token in the Authorization header.
+    description: The Hashnode Public API is a GraphQL API that queries publication
+      data, manages posts and drafts, and creates content via mutations. All requests
+      are POSTed to a single endpoint at https://gql-beta.hashnode.com. Introspection
+      is enabled and anonymous, so the SDL is the published contract - 123 types,
+      13 root queries and 9 root mutations. Anonymous public reads (post, feed, user,
+      tag) require no token; publication-scoped reads and all mutations require a
+      Personal Access Token and an active Pro plan on the target publication. The
+      legacy endpoint gql.hashnode.com now returns HTTP 301 to a deprecation notice.
     image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://apidocs.hashnode.com/
-    baseURL: https://gql.hashnode.com
+    humanURL: https://github.com/Hashnode/gql-skill
+    baseURL: https://gql-beta.hashnode.com
     tags:
       - GraphQL
       - Blogging
       - Posts
       - Publications
-      - Newsletters
       - Drafts
       - Comments
+      - Series
+      - Tags
     properties:
+      - type: GraphQL
+        url: graphql/hashnode-gql-api.graphql
+      - type: GraphQLManifest
+        url: graphql/hashnode-graphql.yml
       - type: Documentation
-        url: https://apidocs.hashnode.com/
+        url: https://github.com/Hashnode/gql-skill/tree/main/skills/gql-api
+      - type: APIReference
+        url: https://github.com/Hashnode/gql-skill/blob/main/skills/gql-api/references/queries.md
+      - type: GettingStarted
+        url: https://github.com/Hashnode/gql-skill#using-the-api-directly
+      - type: Authentication
+        url: authentication/hashnode-authentication.yml
+      - type: Conventions
+        url: conventions/hashnode-conventions.yml
+      - type: ErrorCatalog
+        url: errors/hashnode-error-codes.yml
+      - type: DataModel
+        url: data-model/hashnode-data-model.yml
+      - type: RateLimits
+        url: rate-limits/hashnode-rate-limits.yml
+      - type: Webhooks
+        url: asyncapi/hashnode-webhooks.yml
+      - type: AgentSkill
+        url: skills/_index.yml
       - type: GitHubOrg
         url: https://github.com/Hashnode
       - type: StarterKit
@@ -58,35 +96,85 @@ apis:
       - type: JSONLD
         url: https://raw.githubusercontent.com/api-evangelist/hashnode/refs/heads/main/json-ld/hashnode.json
 common:
-  - type: VulnerabilityDisclosure
-    url: security/hashnode-vulnerability-disclosure.yml
-  - type: DomainSecurity
-    url: security/hashnode-domain-security.yml
   - type: Website
     url: https://hashnode.com
+  - type: DeveloperPortal
+    url: https://github.com/Hashnode/gql-skill
   - type: Documentation
-    url: https://apidocs.hashnode.com/
+    url: https://github.com/Hashnode/gql-skill/tree/main/skills/gql-api
+  - type: APIReference
+    url: https://github.com/Hashnode/gql-skill/blob/main/skills/gql-api/references/queries.md
+  - type: GettingStarted
+    url: https://github.com/Hashnode/gql-skill#using-the-api-directly
+  - type: GitHubOrganization
+    url: https://github.com/Hashnode
   - type: GitHubOrg
     url: https://github.com/Hashnode
   - type: LinkedIn
     url: https://www.linkedin.com/company/hashnode
-  - type: Blog
-    url: https://hashnode.com/blog
-  - type: Pricing
-    url: https://hashnode.com/pricing
-  - type: StatusPage
-    url: https://status.hashnode.com/
   - type: X
     url: https://x.com/hashnode
+  - type: Blog
+    url: https://hashnode.com/blog
+  - type: Support
+    url: https://hashnode.com/support
+  - type: Pricing
+    url: https://hashnode.com/pro
+  - type: SignUp
+    url: https://hashnode.com/signup
+  - type: TermsOfService
+    url: https://hashnode.com/terms
+  - type: PrivacyPolicy
+    url: https://hashnode.com/privacy-policy
+  - type: StatusPage
+    url: https://status.hashnode.com/
+  - type: ChangeLog
+    url: https://hashnode.com/changelog
+  - type: ChangeLog
+    url: changelog/hashnode-changelog.yml
+  - type: Deprecation
+    url: lifecycle/hashnode-lifecycle.yml
+  - type: Lifecycle
+    url: lifecycle/hashnode-lifecycle.yml
+  - type: GraphQL
+    url: graphql/hashnode-gql-api.graphql
+  - type: Authentication
+    url: authentication/hashnode-authentication.yml
+  - type: Conventions
+    url: conventions/hashnode-conventions.yml
+  - type: ErrorCatalog
+    url: errors/hashnode-error-codes.yml
+  - type: DataModel
+    url: data-model/hashnode-data-model.yml
+  - type: Conformance
+    url: conformance/hashnode-conformance.yml
+  - type: Webhooks
+    url: asyncapi/hashnode-webhooks.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Packages
+    url: packages/hashnode-packages.yml
+  - type: SDKs
+    url: packages/hashnode-packages.yml
+  - type: CLI
+    url: cli/hashnode-cli.yml
+  - type: Components
+    url: components/hashnode-components.yml
+  - type: LLMsTxt
+    url: llms/hashnode-llms.txt
   - type: Plans
     url: plans/hashnode-plans-pricing.yml
   - type: RateLimits
     url: rate-limits/hashnode-rate-limits.yml
   - type: FinOps
     url: finops/hashnode-finops.yml
-  - name: Agent Skills
-    url: https://github.com/Hashnode/gql-skill
-    type: AgentSkills
+  - type: DomainSecurity
+    url: security/hashnode-domain-security.yml
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 24
+  pass: local-v1
