@@ -1,0 +1,143 @@
+generated: '2026-08-13'
+method: searched
+source: https://registry.npmjs.org/
+description: >-
+  First-party Hashnode client libraries and tooling. Hashnode publishes no
+  language SDK for the GraphQL API - the documented integration path is plain
+  HTTP POST with a Personal Access Token, plus the official agent skill. The
+  @hashnode npm scope carries a docs CLI, a React component library, and an
+  integration utility package; none has shipped a release since 2025-03, and the
+  CLI has been static since 2024-11, which predates every 2026 API change
+  (Pro gating, the gql-beta endpoint move, the AEO fields).
+
+registries_checked:
+  - registry: npm
+    result: three first-party @hashnode packages found
+  - registry: pypi
+    result: no first-party package
+  - registry: rubygems
+    result: no first-party package
+  - registry: packagist
+    result: no first-party package
+  - registry: crates.io
+    result: no first-party package
+  - registry: nuget
+    result: no first-party package
+  - registry: maven-central
+    result: no first-party package
+  - registry: pkg.go.dev
+    result: no first-party package
+
+packages:
+  - language: javascript
+    registry: npm
+    name: "@hashnode/cli"
+    url: https://www.npmjs.com/package/@hashnode/cli
+    install: npm install -g @hashnode/cli
+    binary: hashnode
+    official: true
+    version: 0.0.6
+    published: '2024-11-20'
+    license: MIT
+    kind: cli
+    description: >-
+      The Hashnode CLI. Verifies and previews a local Hashnode Docs project
+      (documentationProject) before publishing. Not a client for the content API.
+    note: >-
+      Still labelled "under active development" in its own README, but the last
+      publish was 2024-11-20 - 21 months before this check and well before the
+      2026 API changes. Maintained by Hashnode staff accounts
+      (florian_hashnode, lakshyahashnode, rajathashnode, sandeepg33k).
+
+  - language: javascript
+    registry: npm
+    name: "@hashnode/matrix-ui"
+    url: https://www.npmjs.com/package/@hashnode/matrix-ui
+    install: npm install @hashnode/matrix-ui
+    official: true
+    version: 0.2.85
+    published: '2025-03-19'
+    license: MIT
+    kind: ui-components
+    description: React + Tailwind component library published by Hashnode.
+
+  - language: javascript
+    registry: npm
+    name: "@hashnode/utils"
+    url: https://www.npmjs.com/package/@hashnode/utils
+    install: npm install @hashnode/utils
+    official: true
+    version: 0.0.6
+    published: '2024-10-08'
+    license: ISC
+    kind: utilities
+    description: >-
+      Utility functions Hashnode publishes for people building their own
+      Hashnode integrations.
+
+  - language: javascript
+    registry: github
+    name: Hashnode/starter-kit
+    url: https://github.com/Hashnode/starter-kit
+    install: git clone https://github.com/Hashnode/starter-kit
+    official: true
+    version: null
+    published: '2025-01-13'
+    kind: starter-kit
+    description: >-
+      Next.js blog starter kit that uses Hashnode as a headless CMS through the
+      GraphQL API. 648 stars.
+    note: >-
+      Distributed as a template repository, not a registry package, so there is
+      no version to read - version recorded as null. `published` is the repo's
+      last push date from the GitHub API.
+
+  - language: yaml
+    registry: github
+    name: Hashnode/publish-github-action
+    url: https://github.com/Hashnode/publish-github-action
+    official: true
+    version: null
+    published: '2026-07-02'
+    kind: github-action
+    description: >-
+      GitHub Action that publishes markdown files from a repository to a
+      Hashnode publication.
+    note: >-
+      Published as a GitHub Action from the repo, not to a package registry;
+      no registry metadata endpoint exists to read a version from.
+
+third_party:
+  - name: "@jowinjohnchemban/hashnode-client"
+    registry: npm
+    version: 1.0.13
+    published: '2025-12-13'
+    official: false
+    description: Standalone Hashnode GraphQL API client.
+  - name: astro-loader-hashnode
+    registry: npm
+    version: 1.3.0
+    published: '2026-02-24'
+    official: false
+    description: Astro content loader for Hashnode.
+  - name: hashnode
+    registry: npm
+    version: 0.1.2
+    published: '2019-02-12'
+    official: false
+    description: Self-described "Unofficial Hashnode API" client. Abandoned.
+
+x-evidence:
+  - url: https://registry.npmjs.org/@hashnode%2Fcli
+    http_status: 200
+    fetched: '2026-08-13'
+  - url: https://registry.npmjs.org/-/v1/search?text=hashnode&size=20
+    http_status: 200
+    fetched: '2026-08-13'
+  - url: https://api.github.com/orgs/Hashnode/repos
+    http_status: 200
+    fetched: '2026-08-13'
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

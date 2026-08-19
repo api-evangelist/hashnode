@@ -4,25 +4,44 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Hashnode
 providerId: hashnode
 created: '2026-05-04'
-modified: '2026-06-13'
+modified: '2026-08-13'
+generated: '2026-08-13'
+method: searched
+source: https://hashnode.com/pro
+plan_count: 3
 tags:
   - Blogging
   - Content
   - Developer Community
-description: Pricing plans for the Hashnode platform and API. Hashnode offers a free
-  individual tier, a Pro tier for enhanced writing features, a Startup team tier,
-  and a custom Enterprise tier. The GraphQL API itself is available on all tiers;
-  platform features and support levels differ across plans.
+  - Pricing
+description: >-
+  Hashnode's published plans as of 2026-08-13, read from hashnode.com/pro and the
+  changelog entries that introduced them. This artifact REPLACES a 2026-05-04 bulk
+  sweep file that described a Free / Pro $7 / Startup $199 / Enterprise ladder;
+  none of those tiers exist any more. Hashnode restructured in 2026: the GraphQL
+  API left the free tier on 2026-05-13, Pro launched on 2026-06-11 as a per-publication
+  subscription, and Growth launched on 2026-08-12. hashnode.com/pricing now 308s to
+  the homepage - hashnode.com/pro is the pricing page.
+
+api_access_summary: >-
+  API access is a paid feature. Public content reads (post, feed, user, tag) still
+  work without a token, but every publication-scoped read and every mutation
+  requires the TARGET publication to hold an active Pro plan. The gate is keyed to
+  the publication, not the caller, so a Pro user cannot read a non-Pro publication
+  through the API.
+
 plans:
   - id: hashnode-free
     name: Free
     type: freemium
-    description: Free forever plan for individual creators. Includes custom domain
-      mapping, AI writing assistance, basic analytics, and unlimited posts. Full
-      access to the Hashnode GraphQL Public API for reads and mutations.
+    description: >-
+      Free publication on a <name>.hashnode.dev subdomain. Unlimited articles, the
+      editor, and the public site. One publication per account. Publication-scoped
+      GraphQL access and all mutations are NOT included - only anonymous public
+      reads (post, feed, user, tag, documentationProject) work.
     entries:
       - label: Platform Cost
-        description: Monthly cost for the Free plan
+        description: Monthly cost for a free publication
         name: platform_cost
         type: flat
         metric: month
@@ -33,46 +52,38 @@ plans:
         unit: 1
         price: '0.00'
         userMultiplied: false
-      - label: API Rate Limit (Unauthenticated)
-        description: GraphQL requests per minute for unauthenticated callers, grouped by IP via Stellate CDN
-        name: rate_limit_unauth
-        type: rate
-        metric: requests_per_minute
-        limit: 2000
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: API Rate Limit (Authenticated)
-        description: GraphQL requests per minute when using a Personal Access Token
-        name: rate_limit_auth
-        type: rate
-        metric: requests_per_minute
-        limit: 500
-        timeFrame: minute
+      - label: Publications
+        description: Publications allowed on a free account
+        name: publications
+        type: quota
+        metric: publications
+        limit: 1
+        timeFrame: month
         geo: global
         domains: []
         unit: 1
         price: '0.00'
         userMultiplied: false
     elements:
-      - name: Hashnode GraphQL API Access
-      - name: Custom Domain Mapping
-      - name: Unlimited Posts
-      - name: AI Writing Assistance
-      - name: Basic Analytics
-      - name: Community Support
+      - name: Unlimited articles
+      - name: hashnode.dev subdomain
+      - name: Anonymous public GraphQL reads only
+      - name: Articles readable as markdown (.md URL or Accept text/markdown)
+
   - id: hashnode-pro
     name: Pro
     type: paid
-    description: Pro tier for individual creators wanting enhanced writing tools,
-      custom branding, and priority support. Includes AI chatbot, focused writing
-      mode, GitHub draft backup, and a Pro community badge.
+    description: >-
+      Per-publication subscription. Unlocks GraphQL API access (read and write),
+      custom domain, headless mode, the official agent skill, AI editor tools,
+      webhooks, GitHub backup, bulk markdown import, branding removal, scheduled
+      publishing, protection from automoderation deletion, and raises the account
+      limit from 1 to 10 publications. Team pricing is seat-based and adjusts
+      automatically as members join or leave; the exact monthly total is shown on
+      the dashboard Billing page before checkout.
     entries:
       - label: Platform Cost (Monthly)
-        description: Monthly subscription price for Hashnode Pro
+        description: Monthly price per publication
         name: platform_monthly
         type: flat
         metric: month
@@ -81,10 +92,10 @@ plans:
         geo: global
         domains: []
         unit: 1
-        price: '7.00'
-        userMultiplied: false
+        price: '5.00'
+        userMultiplied: true
       - label: Platform Cost (Annual)
-        description: Annual subscription price for Hashnode Pro (equivalent to 2 months free)
+        description: Annual price per publication - two months free
         name: platform_annual
         type: flat
         metric: year
@@ -93,40 +104,48 @@ plans:
         geo: global
         domains: []
         unit: 1
-        price: '70.00'
-        userMultiplied: false
-      - label: API Rate Limit (Authenticated)
-        description: GraphQL requests per minute when using a Personal Access Token
-        name: rate_limit_auth
-        type: rate
-        metric: requests_per_minute
-        limit: 500
-        timeFrame: minute
+        price: '50.00'
+        userMultiplied: true
+      - label: Publications
+        description: Publications allowed once one publication is upgraded
+        name: publications
+        type: quota
+        metric: publications
+        limit: 10
+        timeFrame: month
         geo: global
         domains: []
         unit: 1
         price: '0.00'
         userMultiplied: false
     elements:
-      - name: Hashnode GraphQL API Access
-      - name: All Free Features
-      - name: AI Chatbot (Unlimited)
-      - name: Focused Writing Mode
-      - name: Custom Branding (Remove Hashnode Logo)
-      - name: Pro Community Badge
-      - name: GitHub Draft Backup
-      - name: Priority Support
-      - name: Early Feature Access
-  - id: hashnode-startup
-    name: Startup
+      - name: GraphQL API access (read and write)
+      - name: Official agent skill for the API
+      - name: Custom domain
+      - name: Headless mode
+      - name: Webhooks
+      - name: GitHub backup
+      - name: Bulk markdown import
+      - name: AI editor tools
+      - name: Scheduled publishing
+      - name: Hide Hashnode branding
+      - name: Posts are never auto-deleted
+      - name: Up to 10 publications
+
+  - id: hashnode-growth
+    name: Growth
     type: paid
-    description: Team plan for small organizations. Includes real-time collaborative
-      editing, AI search, inline review comments, unlimited version history, and
-      GitHub publishing for up to 5 seats.
+    description: >-
+      Pro plus the AEO toolkit, launched 2026-08-12. Adds FAQ structured data, an
+      in-editor AEO score, per-bot AI crawler controls in robots.txt, a served
+      /llms.txt exposing the blog's recent 100 posts as markdown, a content
+      freshness queue, and daily AI citation tracking across ChatGPT, Claude,
+      Gemini and Perplexity for up to 10 tracked questions. Priced as a flat
+      surcharge on top of Pro seats.
     entries:
-      - label: Platform Cost (Monthly)
-        description: Monthly subscription price for Hashnode Startup team plan (5 seats included)
-        name: platform_monthly
+      - label: AEO Surcharge (Monthly)
+        description: Flat monthly surcharge on top of the Pro seat cost
+        name: growth_surcharge_monthly
         type: flat
         metric: month
         limit: 1
@@ -134,59 +153,35 @@ plans:
         geo: global
         domains: []
         unit: 1
-        price: '199.00'
-        userMultiplied: false
-      - label: Additional Seats
-        description: Per additional seat per month beyond the included 5
-        name: additional_seat
-        type: metered
-        metric: seats
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: '10.00'
+        price: '29.00'
         userMultiplied: false
     elements:
-      - name: Hashnode GraphQL API Access
-      - name: 5 Team Seats Included
-      - name: Real-Time Collaborative Editing
-      - name: AI Search
-      - name: GitHub Publishing
-      - name: Inline Review Comments
-      - name: Unlimited Version History
-      - name: Email Support
-  - id: hashnode-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated enterprise tier for large organizations. Includes
-      unlimited members, headless CMS mode, dedicated capacity, contractual SLAs,
-      and named technical account management.
-    entries:
-      - label: Platform Cost
-        description: Custom pricing negotiated based on organization size and requirements
-        name: platform_cost
-        type: flat
-        metric: month
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Hashnode GraphQL API Access
-      - name: Unlimited Members
-      - name: Headless CMS Mode
-      - name: All Startup Features
-      - name: Dedicated Infrastructure
-      - name: Contractual SLA
-      - name: Security and Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: 24/7 Priority Support
+      - name: Everything in Pro
+      - name: FAQ blocks with FAQPage structured data (Post.faq)
+      - name: AEO score in the editor
+      - name: AI crawler controls (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, CCBot)
+      - name: Blog-served llms.txt
+      - name: Content freshness queue
+      - name: Daily AI citation tracking
+
+notes:
+  - >-
+    No Enterprise or contact-sales tier is published. Team pricing is seat-based
+    and self-serve; the total is only shown inside the dashboard, so the exact
+    figure for a given team size is not publicly readable.
+  - >-
+    Yearly billing on both Pro and Growth is described as "two months free".
+  - >-
+    Grandfathering - publications using webhooks, a custom domain, or GitHub backup
+    before 2026-06-11 keep them without upgrading.
+
+x-evidence:
+  - {url: 'https://hashnode.com/pro', http_status: 200, fetched: '2026-08-13'}
+  - {url: 'https://hashnode.com/pricing', http_status: 308, redirect: 'https://hashnode.com/', fetched: '2026-08-13'}
+  - {url: 'https://hashnode.com/changelog/2026-06-11-introducing-hashnode-pro', http_status: 200, fetched: '2026-08-13'}
+  - {url: 'https://hashnode.com/changelog/2026-08-12-aeo-toolkit', http_status: 200, fetched: '2026-08-13'}
+  - {url: 'https://hashnode.com/changelog/2026-05-13-graphql-api-paid-access', http_status: 200, fetched: '2026-08-13'}
+
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

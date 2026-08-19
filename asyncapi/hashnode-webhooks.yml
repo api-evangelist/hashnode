@@ -1,0 +1,68 @@
+generated: '2026-08-13'
+method: searched
+source: https://hashnode.com/pro
+spec_type: none
+description: >-
+  Hashnode operates a real webhook surface and publishes no AsyncAPI for it. This
+  artifact captures the event surface as Hashnode documents it, so the absence of a
+  spec is recorded rather than the surface being dropped. Webhooks are a Pro-plan
+  feature, configured per publication in the dashboard, not through the GraphQL API -
+  the SDL exposes no webhook types, queries, or mutations.
+
+asyncapi_published: false
+webhooks_published: true
+
+surface:
+  configuration: publication dashboard (Pro plan)
+  configuration_via_api: false
+  delivery: HTTP request to a customer-supplied endpoint
+  signed: true
+  signature_scheme: not published
+  retry_policy: not published
+  payload_schema: not published
+  common_destinations: [Slack, Zapier, any HTTP endpoint]
+
+events:
+  - subject: post
+    actions: [published, updated, deleted]
+    source: https://hashnode.com/changelog/2026-06-11-introducing-hashnode-pro
+  - subject: static page
+    actions: [published, updated, deleted]
+    source: https://hashnode.com/changelog/2026-06-11-introducing-hashnode-pro
+
+provider_statements:
+  - quote: >-
+      Webhooks. Fire a signed request to your endpoint whenever a post or static
+      page is published, updated, or deleted, so you can wire Hashnode into your
+      own systems.
+    source: https://hashnode.com/changelog/2026-06-11-introducing-hashnode-pro
+  - quote: >-
+      Webhooks - Send real-time event notifications to Slack, Zapier, or any HTTP
+      endpoint when your content changes.
+    source: https://hashnode.com/pro
+
+availability:
+  plan: Pro
+  grandfathered: >-
+    Publications that had webhooks configured before Pro launched on 2026-06-11
+    keep them.
+
+gaps:
+  - No AsyncAPI or event-schema document is published.
+  - >-
+    The signature scheme is stated ("signed request") but never specified - no
+    header name, algorithm, or verification recipe is published anywhere reachable
+    without a Pro dashboard.
+  - No event catalogue, payload example, retry policy, or delivery-log reference.
+
+x-evidence:
+  - url: https://hashnode.com/pro
+    http_status: 200
+    fetched: '2026-08-13'
+  - url: https://hashnode.com/changelog/2026-06-11-introducing-hashnode-pro
+    http_status: 200
+    fetched: '2026-08-13'
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

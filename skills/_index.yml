@@ -1,0 +1,80 @@
+generated: '2026-08-13'
+method: searched
+source: https://github.com/Hashnode/gql-skill
+description: >-
+  Hashnode publishes an official Agent Skill for its GraphQL API. It is saved here
+  verbatim rather than generated: Hashnode authored it, distributes it at
+  github.com/Hashnode/gql-skill under `npx skills add Hashnode/gql-skill`, and
+  generates it from the API schema in its private gql repo so the reference does
+  not drift. Hashnode shipped it as a skill deliberately instead of an MCP server
+  (see mcp/hashnode-mcp.yml).
+
+install: npx skills add Hashnode/gql-skill
+repository: https://github.com/Hashnode/gql-skill
+announced: https://hashnode.com/changelog/2026-06-18-graphql-agent-skill
+format: skills.sh Agent Skill (frontmatter + markdown)
+compatible_agents: [Claude Code, Cursor, GitHub Copilot, OpenCode]
+
+skills:
+  - file: hashnode-gql-api.md
+    name: gql-api
+    official: true
+    method: searched
+    source: https://raw.githubusercontent.com/Hashnode/gql-skill/main/skills/gql-api/SKILL.md
+    api: graphql/hashnode-gql-api.graphql
+    description: >-
+      Query and mutate content on the Hashnode GraphQL API (posts, drafts,
+      publications, users, tags, series, comments). Teaches the endpoint, PAT auth,
+      which operations are Pro-gated, the limits that cause failures, and how to
+      build hashnode.com links from API data.
+    operations:
+      - post
+      - feed
+      - user
+      - tag
+      - publication
+      - draft
+      - scheduledPost
+      - searchPostsOfPublication
+      - topCommenters
+      - documentationProject
+      - me
+      - publishPost
+      - updatePost
+      - createDraft
+      - updateDraft
+      - publishDraft
+      - submitDraftForReview
+      - rejectDraftSubmission
+      - deleteDraft
+      - createImageUploadURL
+
+references:
+  - file: references/hashnode-queries.md
+    name: Queries
+    summary: All 13 root queries with arguments, return types, and auth/Pro flags.
+  - file: references/hashnode-mutations.md
+    name: Mutations
+    summary: All 9 root mutations with inputs, payloads, and auth/Pro flags.
+  - file: references/hashnode-auth-and-roles.md
+    name: Authentication and roles
+    summary: PAT setup, public vs authenticated operations, OWNER/EDITOR/CONTRIBUTOR roles, contributor review flow.
+  - file: references/hashnode-errors-and-limits.md
+    name: Errors and limits
+    summary: Error codes, page-size caps, query depth, payload and image limits, rate-limit targets, caching.
+  - file: references/hashnode-recipes.md
+    name: Recipes
+    summary: End-to-end flows - publish a post, draft then publish, contributor review, two-step image upload, feed pagination, publication search, building post/comment permalinks.
+  - file: ../graphql/hashnode-gql-api.graphql
+    name: Schema (SDL)
+    summary: Full introspection schema, the canonical reference for exact type, field, argument, and input names.
+
+x-evidence:
+  - url: https://api.github.com/repos/Hashnode/gql-skill
+    http_status: 200
+    fetched: '2026-08-13'
+    note: pushed_at 2026-08-12, description "Agent skill for the Hashnode GraphQL API."
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

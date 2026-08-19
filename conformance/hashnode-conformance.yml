@@ -1,0 +1,148 @@
+generated: '2026-08-13'
+method: derived
+source: graphql/hashnode-gql-api.graphql
+description: >-
+  Which cross-cutting standards the Hashnode API conforms to, derived from the live
+  SDL and the provider's own reference docs. Hashnode is a single-standard API: it
+  implements GraphQL and the Relay connection specification correctly and adopts
+  essentially nothing else. There is no OAuth, no OIDC, no problem-details error
+  format, no idempotency contract, no HTTP caching semantics, and no published
+  compliance program - so no Compliance pointer is emitted from this file.
+
+standards:
+  - id: graphql
+    conforms: true
+    evidence: >-
+      GraphQL over HTTP POST, Apollo Server, introspection enabled and anonymous;
+      confirmed by a live introspection query on 2026-08-13.
+
+  - id: graphql-introspection
+    conforms: true
+    evidence: Anonymous full introspection returns 123 types from gql-beta.hashnode.com.
+
+  - id: relay-cursor-connections
+    conforms: true
+    evidence: >-
+      11 *Connection types with edges { node cursor } and
+      pageInfo { hasNextPage endCursor }.
+
+  - id: graphql-field-deprecation
+    conforms: true
+    evidence: >-
+      @deprecated with reasons on Publication.descriptionSEO and
+      DraftSettings.enableTableOfContents.
+
+  - id: bearer-token-auth
+    conforms: partial
+    evidence: >-
+      Authorization header carries a Personal Access Token, but the "Bearer "
+      prefix is optional and case-insensitive, which is not RFC 6750 conformant.
+
+  - id: oauth2
+    conforms: false
+    evidence: No OAuth flows; the only credential is a long-lived Personal Access Token.
+
+  - id: oidc
+    conforms: false
+    evidence: /.well-known/openid-configuration returns 404 on every host.
+
+  - id: rfc8414-oauth-authorization-server-metadata
+    conforms: false
+    evidence: /.well-known/oauth-authorization-server returns 404 on every host.
+
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors use the GraphQL errors array with extensions.code, inside HTTP 200.
+      No application/problem+json surface exists.
+
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: >-
+      /.well-known/security.txt returns 404. /security.txt returns 200 but the body
+      is the application shell reading "User not found" - a soft 404.
+
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: >-
+      No Sunset or Deprecation headers. The 2026-05-13 breaking change and the
+      endpoint move were announced in the changelog and the agent skill only.
+
+  - id: idempotency-key
+    conforms: false
+    evidence: >-
+      No idempotency key header or input field on any mutation in the SDL; a
+      retried publishPost creates a duplicate post.
+
+  - id: rate-limit-headers
+    conforms: false
+    evidence: >-
+      No RateLimit-* or X-RateLimit-* headers; Hashnode states rate limiting is not
+      currently enforced.
+
+  - id: openapi
+    conforms: false
+    evidence: >-
+      No OpenAPI is published. Probed /openapi.json, /openapi.yaml, /swagger.json
+      and /api-docs on every host; the API host 301s or 404s and there is no REST
+      projection of the API to describe.
+
+  - id: asyncapi
+    conforms: false
+    evidence: >-
+      A real webhook surface exists (Pro plan) but no AsyncAPI or event schema is
+      published. See asyncapi/hashnode-webhooks.yml.
+
+  - id: schema-org-faqpage
+    conforms: true
+    evidence: >-
+      The AEO toolkit renders Post.faq as FAQPage structured data on the published
+      blog (changelog 2026-08-12).
+
+  - id: llms-txt
+    conforms: partial
+    evidence: >-
+      Growth-plan customer publications serve their own /llms.txt exposing the last
+      100 posts as markdown, gated by Publication.aeoSettings.llmsTxtEnabled.
+      hashnode.com itself does not serve one - https://hashnode.com/llms.txt returns
+      HTTP 200 with the HTML application shell, which is a soft 404.
+
+  - id: robots-ai-crawler-controls
+    conforms: true
+    evidence: >-
+      Per-bot robots.txt switches for GPTBot, ClaudeBot, PerplexityBot,
+      Google-Extended and CCBot, readable through
+      Publication.aeoSettings.crawlers.
+
+  - id: a2a-agent-card
+    conforms: false
+    evidence: >-
+      /.well-known/agent-card.json and /.well-known/agent.json both return 404 on
+      hashnode.com and gql-beta.hashnode.com.
+
+  - id: mcp
+    conforms: false
+    evidence: >-
+      No MCP server. Hashnode's own FAQ states it ships an agent skill instead, by
+      design. See mcp/hashnode-mcp.yml.
+
+  - id: agent-skills
+    conforms: true
+    evidence: >-
+      Official skills.sh-format Agent Skill published at
+      github.com/Hashnode/gql-skill and installable with
+      `npx skills add Hashnode/gql-skill`.
+
+compliance_program:
+  published: false
+  certifications: []
+  trust_center: null
+  note: >-
+    No SOC 2, ISO 27001, PCI, HIPAA, FedRAMP or GDPR compliance page was found on
+    hashnode.com, and no trust or security subdomain resolves. Hashnode publishes
+    Terms, a Privacy Policy, a Code of Conduct and Community Guidelines, but no
+    security or compliance posture document.
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

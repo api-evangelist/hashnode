@@ -4,67 +4,114 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Hashnode
 providerId: hashnode
 created: '2026-05-04'
-modified: '2026-06-13'
+modified: '2026-08-13'
+generated: '2026-08-13'
+method: searched
+source: https://raw.githubusercontent.com/Hashnode/gql-skill/main/skills/gql-api/references/errors-and-limits.md
+docs: https://github.com/Hashnode/gql-skill/blob/main/skills/gql-api/references/errors-and-limits.md
+limit_count: 2
 tags:
   - Blogging
-  - Content
-  - Developer Community
-  - Rate Limiting
   - GraphQL
-  - Stellate
-description: Rate limit definitions for the Hashnode GraphQL API. Hashnode fronts
-  the gql.hashnode.com endpoint with Stellate, a GraphQL edge-cache CDN, which
-  enforces the rate limits. Unauthenticated requests are throttled per IP address;
-  authenticated requests (Personal Access Token in the Authorization header) are
-  throttled per token.
+  - Rate Limiting
+description: >-
+  Rate limits for the Hashnode GraphQL API, taken from Hashnode's own agent-skill
+  reference. This REPLACES a 2026-05-04 bulk sweep file that described 2,000 rpm
+  unauthenticated / 500 rpm authenticated enforced by a Stellate GraphQL CDN in
+  front of gql.hashnode.com. That description no longer matches anything Hashnode
+  publishes: the endpoint it named now 301s to a deprecation notice, and Hashnode's
+  current documentation states plainly that rate limiting is NOT currently enforced
+  by the server. The published numbers are targets, not a contract.
+
+enforcement:
+  enforced: false
+  statement: >-
+    "The published targets are 20,000 queries/min and 500 mutations/min, but rate
+    limiting is not currently enforced by the server. Treat these as advisory and
+    don't build logic that depends on hitting (or being blocked at) them."
+  implication: >-
+    An agent cannot detect throttling from a response, because none is signalled.
+    The real access control is the Pro-plan gate, which returns FORBIDDEN and is
+    not a rate limit - it never clears on retry.
+
 infrastructure:
-  edgeCache: Stellate (GraphQL CDN)
-  endpoint: https://gql.hashnode.com
+  endpoint: https://gql-beta.hashnode.com/
+  retired_endpoint: https://gql.hashnode.com
   authHeader: Authorization
   authType: PersonalAccessToken
+
 headers:
-  retryAfter: Retry-After
+  rate_limit_headers: none documented
+  retry_after: not documented
+  note: >-
+    No X-RateLimit-*, no RateLimit-*, no Retry-After documented. There is no
+    runtime rate-limit signal for a client to read.
+
 responseCodes:
-  throttled: 429
-  serviceUnavailable: 503
+  throttled: not documented
+  note: >-
+    GraphQL errors are returned inside HTTP 200 with a code in extensions.code.
+    No throttling code is published in the closed set of five error codes.
+
 limits:
   - tier: all
-    name: Unauthenticated Request Limit
-    scope: ip
+    name: Query target
+    scope: unspecified
     metric: requests_per_minute
-    limit: 2000
+    operation_type: query
+    limit: 20000
     timeFrame: minute
-    notes: Applied per IP address for requests without an Authorization header via Stellate CDN
+    enforced: false
+    notes: Published target only; Hashnode states it is not enforced by the server.
     applies:
       - Hashnode GraphQL API
   - tier: all
-    name: Authenticated Request Limit
-    scope: api-key
+    name: Mutation target
+    scope: unspecified
     metric: requests_per_minute
+    operation_type: mutation
     limit: 500
     timeFrame: minute
-    notes: Applied per Personal Access Token for requests with an Authorization header via Stellate CDN
+    enforced: false
+    notes: Published target only; Hashnode states it is not enforced by the server.
     applies:
       - Hashnode GraphQL API
+
+request_shaping_limits:
+  note: >-
+    These ARE enforced, and in practice they are what a client actually hits.
+  limits:
+    - {name: Max query depth, value: 10, behavior: deeper queries rejected}
+    - {name: Page size - most connections, value: 100, behavior: silently clamped}
+    - {name: Page size - draft connections, value: 50, behavior: silently clamped}
+    - {name: Request body size, value: 100 KB}
+    - {name: Image upload size, value: 8 MB, behavior: 'image/* only, SVG rejected'}
+    - {name: Tags per post or draft, value: 15}
+    - {name: Co-authors per post, value: 4}
+
 policies:
-  - name: Stellate Edge Caching
-    description: Hashnode uses Stellate as a GraphQL CDN in front of gql.hashnode.com.
-      Cacheable read queries may be served from the edge cache and may not count
-      against per-request rate limits.
-  - name: Backoff Strategy
-    description: Clients receiving a 429 response should implement exponential backoff
-      with jitter, honoring the Retry-After header when present.
-  - name: Authentication Preferred
-    description: Authenticated requests with a Personal Access Token have a higher
-      per-minute cap (500 rpm) than unauthenticated requests (2000 rpm per IP).
-      Use authentication for production integrations to avoid shared IP throttling.
-  - name: Personal Access Token Generation
-    description: Personal Access Tokens are generated at https://hashnode.com/settings/developer.
-      Tokens must be passed in the Authorization header of each GraphQL request.
-  - name: Fair Use
-    description: Sustained high-volume usage that materially impacts shared infrastructure
-      may be subject to additional throttling or account review regardless of documented
-      limits.
+  - name: Access is gated by subscription, not by quota
+    description: >-
+      Since 2026-05-13 the binding constraint on the Hashnode API is the Pro plan,
+      not a request budget. Publication-scoped reads and all mutations return
+      FORBIDDEN unless the target publication is on Pro.
+  - name: Query caching
+    description: >-
+      Query responses may be cached for up to ~25 seconds; mutations are never
+      cached. A read immediately after a write can return stale data.
+  - name: Clamping is silent
+    description: >-
+      Page sizes above the cap are clamped rather than errored, so a client asking
+      for 500 receives 100 with no signal. Never infer completeness from a short page.
+  - name: Personal Access Token generation
+    description: >-
+      Tokens are generated at https://hashnode.com/settings/developer and passed in
+      the Authorization header.
+
+x-evidence:
+  - {url: 'https://raw.githubusercontent.com/Hashnode/gql-skill/main/skills/gql-api/references/errors-and-limits.md', http_status: 200, fetched: '2026-08-13'}
+  - {url: 'https://gql-beta.hashnode.com/', http_status: 200, fetched: '2026-08-13', note: anonymous introspection returned 200 with no rate-limit headers}
+
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

@@ -1,0 +1,57 @@
+generated: '2026-08-13'
+method: probed
+source: live HTTP probes of every host in apis.yml
+description: >-
+  Recorded absence. Neither hashnode.com nor the live API host gql-beta.hashnode.com
+  serves any /.well-known/ discovery document. Every path below returned a real 404.
+  No WellKnown, SecurityTxt, or APICatalog pointer is emitted from this file, because
+  the file documents that the surface is not served.
+
+soft_200_warning: >-
+  https://hashnode.com/security.txt returns HTTP 200 but the body is the Next.js
+  application shell rendering "User not found" - the site routes unknown top-level
+  paths to a username lookup. It is a soft 404, not a security.txt, and must not be
+  counted as a served document. The same shape applies to
+  https://hashnode.com/llms.txt (HTTP 200, 68 KB of HTML application shell, no
+  llms.txt content) and https://hashnode.com/vulnerability-disclosure.
+
+hosts:
+  - host: https://hashnode.com
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/oauth-protected-resource, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}
+      - {path: /security.txt, status: 200, served: false, note: soft 404 - HTML application shell reading "User not found"}
+      - {path: /llms.txt, status: 200, served: false, note: soft 404 - HTML application shell, not llms.txt}
+  - host: https://gql-beta.hashnode.com
+    documents:
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/oauth-protected-resource, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}
+      - {path: /security.txt, status: 404}
+  - host: https://gql.hashnode.com
+    note: >-
+      Retired endpoint. Every path returns HTTP 301 to
+      https://hashnode.com/announcements/graphql-api, so /.well-known/ probes
+      are not meaningful here.
+
+customer_surface_note: >-
+  Hashnode does serve llms.txt - but on customer publications, not on hashnode.com.
+  The AEO toolkit shipped 2026-08-12 makes a Growth-plan blog serve its own
+  /llms.txt exposing the blog's recent 100 posts as markdown, gated by the
+  Publication.aeoSettings.llmsTxtEnabled field. That is a per-tenant feature of the
+  product, not a discovery document Hashnode publishes about its own API.
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

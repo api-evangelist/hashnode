@@ -1,0 +1,105 @@
+generated: '2026-08-13'
+method: searched
+source: https://raw.githubusercontent.com/Hashnode/gql-skill/main/skills/gql-api/references/auth-and-roles.md
+docs: https://github.com/Hashnode/gql-skill/blob/main/skills/gql-api/references/auth-and-roles.md
+description: >-
+  Hashnode authenticates the GraphQL API with a single scheme: a long-lived
+  Personal Access Token sent in the Authorization header. There is no OAuth, no
+  OIDC, no scope model, and no mTLS - so there is no scopes/ artifact for this
+  provider. Authorization is layered on top of authentication in two independent
+  ways: a publication role model (OWNER / EDITOR / CONTRIBUTOR) and a
+  subscription gate (the target publication must be on the Pro plan).
+
+summary:
+  types: [http]
+  http_schemes: [bearer]
+  token_location: header
+  header: Authorization
+  oauth2_flows: []
+  scopes: none
+  api_key_in: []
+  mtls: false
+
+schemes:
+  - name: PersonalAccessToken
+    type: http
+    scheme: bearer
+    in: header
+    header: Authorization
+    format: opaque
+    bearer_prefix_required: false
+    note: >-
+      The "Bearer " prefix is optional and case-insensitive. A deactivated user's
+      token is treated as unauthenticated.
+    issuance:
+      url: https://hashnode.com/settings/developer
+      path: Account Settings -> Developer / API tokens -> Generate new token
+      expiry: none documented
+      rotation: manual, from the dashboard
+    scope_of_power: >-
+      Full write access to every publication the user can act on - publish, edit,
+      and delete. Hashnode's own guidance is to treat it as a password.
+    handling_rules:
+      - Supply the token via the HASHNODE_PAT environment variable and interpolate it at request time.
+      - Never inline the literal token into a command string, file, script, or commit.
+      - Never ask a user to paste the token into a conversation and never print or log it.
+
+access_matrix:
+  - operations: [post, feed, user, tag, documentationProject, checkCustomDomainAvailability, checkSubdomainAvailability]
+    token_required: false
+    pro_required: false
+  - operations: [publication, searchPostsOfPublication, topCommenters]
+    token_required: false
+    pro_required: true
+    note: publication-scoped reads; FORBIDDEN when the target publication is not on Pro
+  - operations: [me]
+    token_required: true
+    pro_required: false
+  - operations: [draft, scheduledPost]
+    token_required: true
+    pro_required: true
+  - operations: [publishPost, updatePost, createDraft, updateDraft, publishDraft, submitDraftForReview, rejectDraftSubmission, deleteDraft]
+    token_required: true
+    pro_required: true
+  - operations: [createImageUploadURL]
+    token_required: true
+    pro_required: false
+
+roles:
+  model: UserPublicationRole
+  values:
+    - role: OWNER
+      capabilities: Creator of the publication; can do everything.
+    - role: EDITOR
+      capabilities: Customize the blog, approve/reject posts, manage members.
+    - role: CONTRIBUTOR
+      capabilities: >-
+        Join and contribute an article. Cannot publish directly - must route writes
+        through createDraft -> submitDraftForReview, and cannot list other authors'
+        drafts.
+
+failure_modes:
+  - condition: missing or invalid token on an authenticated operation
+    code: UNAUTHENTICATED
+  - condition: valid token, insufficient role
+    code: FORBIDDEN
+  - condition: valid token and role, publication not on Pro
+    code: FORBIDDEN
+    message: >-
+      Publication does not have an active Pro plan. Upgrade in your dashboard to
+      access this via the API.
+    retryable: false
+  - condition: draft the caller is not authorized for
+    code: NOT_FOUND
+    note: >-
+      Returned instead of FORBIDDEN by design, for privacy. Do not treat it as
+      "retry with auth".
+
+related:
+  errors: errors/hashnode-error-codes.yml
+  conventions: conventions/hashnode-conventions.yml
+  rate_limits: rate-limits/hashnode-rate-limits.yml
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

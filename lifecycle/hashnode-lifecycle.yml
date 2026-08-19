@@ -1,0 +1,101 @@
+generated: '2026-08-13'
+method: searched
+source: https://hashnode.com/changelog
+description: >-
+  Versioning, deprecation, and operational posture for the Hashnode GraphQL API.
+  Hashnode does not version the API - one continuously evolving schema, changed in
+  place, with field-level @deprecated as the only in-contract signal. 2026 saw the
+  largest breaking change in the API's history: free access was retired on
+  2026-05-13 and the production endpoint moved off gql.hashnode.com, which now
+  301s every request to the announcement page.
+
+versioning:
+  scheme: none
+  current: unversioned
+  detail: >-
+    No version segment in the path, no version header, no dated version train.
+    Breaking changes are communicated through the changelog and through
+    @deprecated directives in the SDL.
+  docs: https://hashnode.com/changelog
+
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    Hashnode publishes no written deprecation policy, no notice period, and no
+    RFC 8594 Sunset/Deprecation header support. What it does publish is a
+    Deprecated category in the changelog, which is where the API's breaking
+    changes have actually been announced.
+  changelog_category: https://hashnode.com/changelog
+  events:
+    - date: '2026-05-13'
+      kind: breaking
+      title: GraphQL API is moving to a paid offering
+      url: https://hashnode.com/changelog/2026-05-13-graphql-api-paid-access
+      summary: >-
+        Free GraphQL API access retired. Reads and writes both require the target
+        publication to hold an active Pro plan. Hashnode's stated reason is abuse -
+        scrapers mirroring posts to spam farms and write traffic flooding the feed.
+      migration: self-serve upgrade from the blog dashboard's Billing page
+    - date: unknown
+      kind: endpoint-move
+      title: Production endpoint moved from gql.hashnode.com to gql-beta.hashnode.com
+      observed: '2026-08-13'
+      evidence:
+        - {url: 'https://gql.hashnode.com/', http_status: 301, redirect: 'https://hashnode.com/announcements/graphql-api'}
+        - {url: 'https://gql-beta.hashnode.com/', http_status: 200, note: anonymous introspection succeeds}
+      note: >-
+        Undated in the changelog. The move is documented only inside the official
+        agent skill, whose endpoint table names gql-beta.hashnode.com as
+        Production. Every third-party tutorial still points at gql.hashnode.com.
+    - date: unknown
+      kind: docs-host-retired
+      title: apidocs.hashnode.com no longer resolves
+      observed: '2026-08-13'
+      evidence:
+        - {url: 'https://apidocs.hashnode.com/', http_status: 0, note: NXDOMAIN}
+      note: >-
+        The canonical API reference host is gone with no announcement and no
+        redirect. github.com/Hashnode/gql-skill is now the de facto reference.
+
+deprecated_operations: []
+deprecated_fields:
+  - field: Publication.descriptionSEO
+    replacement: seo.description
+    source: graphql/hashnode-gql-api.graphql
+  - field: DraftSettings.enableTableOfContents
+    replacement: Draft.features.tableOfContents.isEnabled
+    source: graphql/hashnode-gql-api.graphql
+
+status_page:
+  url: https://status.hashnode.com/
+  provider: Better Stack
+  http_status: 200
+  history_feed: https://status.hashnode.com/history.rss
+  machine_readable_api: false
+  note: >-
+    Better Stack status page. There is no Statuspage-style /api/v2/status.json -
+    that path returns the page's HTML shell, not JSON.
+
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    No published SLA or uptime commitment on any plan, including Pro and Growth.
+
+support:
+  email: hello@hashnode.com
+  support_email: hello+support@hashnode.com
+  url: https://hashnode.com/support
+
+grandfathering:
+  note: >-
+    Publications that had webhooks, a custom domain, or GitHub backup configured
+    before Pro launched on 2026-06-11 keep them at no charge.
+  source: https://hashnode.com/changelog/2026-06-11-introducing-hashnode-pro
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

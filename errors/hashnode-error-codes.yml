@@ -1,0 +1,113 @@
+generated: '2026-08-13'
+method: searched
+source: https://raw.githubusercontent.com/Hashnode/gql-skill/main/skills/gql-api/references/errors-and-limits.md
+docs: https://github.com/Hashnode/gql-skill/blob/main/skills/gql-api/references/errors-and-limits.md
+format: graphql-errors
+description: >-
+  Hashnode's error contract is the standard GraphQL errors array with a machine
+  code in extensions.code. It is not RFC 9457 - there is no application/problem+json
+  surface, because the API has no REST projection. Hashnode publishes a closed set
+  of five codes and states that anything outside that set is collapsed to
+  INTERNAL_SERVER_ERROR with a generic message, which makes the catalog complete
+  rather than illustrative.
+
+envelope:
+  shape: |
+    {
+      "errors": [{
+        "message": "Post not found",
+        "extensions": { "code": "NOT_FOUND" },
+        "path": ["post"]
+      }]
+    }
+  code_field: extensions.code
+  path_field: path
+  http_status: 200
+  http_note: >-
+    GraphQL errors are returned inside a 200 response body. Agents must inspect
+    the errors array, not the HTTP status.
+
+problems:
+  - code: UNAUTHENTICATED
+    title: Missing or invalid Personal Access Token
+    meaning: An authenticated operation was called without a valid PAT.
+    remediation: "Add a valid `Authorization: Bearer $HASHNODE_PAT` header."
+    retryable: false
+
+  - code: FORBIDDEN
+    title: Insufficient permission, or publication not on Pro
+    meaning: >-
+      Either the caller's publication role does not allow the operation, or the
+      target publication does not have an active Pro plan.
+    remediation: >-
+      Read the message. If it names the Pro plan, stop and tell the user to upgrade
+      the publication - retrying will not help. Otherwise the caller lacks the
+      required role.
+    retryable: false
+
+  - code: NOT_FOUND
+    title: Resource missing, or intentionally hidden
+    meaning: >-
+      The resource does not exist, or the caller is not authorized to see it. An
+      inaccessible draft returns NOT_FOUND by design rather than FORBIDDEN.
+    remediation: Do not assume authentication fixes it.
+    retryable: false
+
+  - code: BAD_USER_INPUT
+    title: Invalid arguments or input
+    meaning: The operation's variables failed validation.
+    remediation: Fix the variables.
+    retryable: false
+
+  - code: INTERNAL_SERVER_ERROR
+    title: Server error
+    meaning: >-
+      Server-side failure. Details are not exposed; every unmapped error is
+      collapsed into this code with a generic message.
+    remediation: Retry later; report if persistent.
+    retryable: true
+
+signature_errors:
+  - name: Pro-plan gate
+    code: FORBIDDEN
+    message: >-
+      Publication does not have an active Pro plan. Upgrade in your dashboard to
+      access this via the API.
+    triggered_by:
+      - all write mutations
+      - publication
+      - searchPostsOfPublication
+      - topCommenters
+      - draft
+      - scheduledPost
+    resolution: Upgrade the target publication to Pro. Retrying the same call will not help.
+    note: >-
+      Hashnode calls this "the most common gotcha" and instructs agents to stop
+      rather than loop on it.
+
+validation_limits:
+  - limit: max query depth
+    value: 10
+    behavior: deeper queries are rejected
+  - limit: page size, most connections (first)
+    value: 100
+    behavior: clamped silently, not errored
+  - limit: page size, draft connections (first)
+    value: 50
+    behavior: clamped silently, not errored
+  - limit: request body size
+    value: 100 KB
+  - limit: image upload size
+    value: 8 MB
+    behavior: image/* only, SVG rejected
+  - limit: tags per post or draft
+    value: 15
+
+related:
+  authentication: authentication/hashnode-authentication.yml
+  conventions: conventions/hashnode-conventions.yml
+  rate_limits: rate-limits/hashnode-rate-limits.yml
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

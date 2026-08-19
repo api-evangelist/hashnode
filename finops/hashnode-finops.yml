@@ -11,6 +11,9 @@ providerId: hashnode
 publisherName: Hashnode
 serviceCategory: API
 created: '2026-05-04'
+# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
+# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
+method: generated
 modified: '2026-06-13'
 tags:
   - Blogging
@@ -19,11 +22,19 @@ tags:
   - FinOps
   - Cost Management
   - FOCUS
-description: "FinOps framework definition for Hashnode platform and API costs. Hashnode\
-  \ uses a subscription-based billing model: Free ($0), Pro ($7/month or $70/year),\
-  \ Startup ($199/month + $10/additional seat), and Enterprise (custom). The GraphQL\
-  \ API is included in all plans with no per-request charges; cost allocation focuses\
-  \ on seat counts and subscription tier selection."
+description: >-
+  FinOps framework definition for Hashnode platform and API costs. Corrected
+  2026-08-13 - the tier ladder previously described here (Pro $7, Startup $199,
+  Enterprise) was written by a 2026-05-04 bulk sweep and no longer exists.
+  Hashnode's published model is per-publication subscription - Free ($0), Pro
+  ($5/month or $50/year per publication, seat-based for teams), and Growth (Pro
+  plus a flat $29/month for the AEO toolkit). There is no Enterprise or
+  contact-sales tier. The GraphQL API is NOT included at every tier - since
+  2026-05-13 every publication-scoped read and every mutation requires the target
+  publication to hold an active Pro plan, so API access is a subscription line
+  item rather than a free platform feature. There are no per-request charges,
+  so cost allocation is driven entirely by publication count, seat count, and
+  tier selection. See plans/hashnode-plans-pricing.yml for the searched source.
 principles:
   - name: Visibility
     description: Make API consumption costs visible to engineering, product, and finance teams in near

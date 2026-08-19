@@ -1,0 +1,172 @@
+generated: '2026-08-13'
+method: searched
+source: https://hashnode.com/changelog
+description: >-
+  Hashnode publishes a dated, categorised, server-rendered changelog at
+  hashnode.com/changelog with per-entry permalinks, author attribution, and four
+  filters (Features, Improvements, Fixes, Deprecated). It covers the whole product,
+  not just the API, but every 2026 API change - the paid gate, the agent skill, the
+  markdown surface, the AEO fields - was announced here. Captured window: the full
+  visible list, 2026-02-18 to 2026-08-12.
+
+scheme: dated-entries
+current_version: unversioned
+url: https://hashnode.com/changelog
+permalink_format: https://hashnode.com/changelog/<YYYY-MM-DD>-<slug>
+categories: [Feature, Improvement, Fix, Deprecated]
+feed: none published
+captured_window:
+  from: '2026-02-18'
+  to: '2026-08-12'
+  entry_count: 19
+
+entries:
+  - date: '2026-08-12'
+    slug: 2026-08-12-aeo-toolkit
+    category: Feature
+    title: 'Growth Plan with AEO toolkit: Get your posts cited by AI answer engines'
+    api_impact: true
+    breaking: false
+    additions:
+      - Publication.aeoSettings (isEnabled, llmsTxtEnabled, crawlers)
+      - Post.faq
+    highlights: >-
+      FAQ blocks rendering FAQPage structured data, an eight-check AEO score in the
+      editor, per-bot AI crawler switches (GPTBot, ClaudeBot, PerplexityBot,
+      Google-Extended, CCBot), a blog-served /llms.txt exposing the last 100 posts
+      as markdown, a freshness queue, and daily citation tracking across ChatGPT,
+      Claude, Gemini and Perplexity. Ships as the Growth Plan - Pro plus $29/month.
+  - date: '2026-07-29'
+    slug: 2026-07-29-consent-management
+    category: Feature
+    title: 'Cookie consent for Pro: Your blog can ask before it tracks'
+    api_impact: false
+  - date: '2026-07-28'
+    slug: 2026-07-28-ai-navigation-cmd-k
+    category: Feature
+    title: Cmd+K understands where you want to go
+    api_impact: false
+  - date: '2026-07-14'
+    slug: 2026-07-14-openpanel-integration
+    category: Feature
+    title: OpenPanel joins the integrations page
+    api_impact: false
+  - date: '2026-07-13'
+    slug: 2026-07-13-seo-title-independent
+    category: Fix
+    title: SEO title no longer renames your blog
+    api_impact: true
+    breaking: false
+    highlights: >-
+      Meta title and blog name were sharing one field. They are stored separately
+      now and the GraphQL API exposes them under `seo`.
+  - date: '2026-07-11'
+    slug: 2026-07-11-zen-mode-image-drops-profile
+    category: Feature
+    title: Zen mode, image drag and drop, and a new profile
+    api_impact: false
+  - date: '2026-06-23'
+    slug: 2026-06-23-posts-as-markdown
+    category: Feature
+    title: Read any article as Markdown
+    api_impact: true
+    breaking: false
+    highlights: >-
+      Every article is readable as raw markdown, either by appending .md to the
+      article URL or by sending `Accept: text/markdown`. Explicitly built for LLMs
+      and coding agents; browser visits still get HTML.
+  - date: '2026-06-22'
+    slug: 2026-06-22-writing-first-redesign
+    category: Improvement
+    title: A home built around writing
+    api_impact: false
+    highlights: >-
+      Vocabulary change - blogs are now "publications" and blog posts are
+      "articles"; the feed moved to /feed.
+  - date: '2026-06-18'
+    slug: 2026-06-18-graphql-agent-skill
+    category: Feature
+    title: Use the GraphQL API in your AI agent
+    api_impact: true
+    breaking: false
+    highlights: >-
+      Official open-source agent skill published at github.com/Hashnode/gql-skill,
+      installed with `npx skills add Hashnode/gql-skill`. Ships the full SDL plus
+      curated auth, roles, limits, errors, and recipes. Works with Claude Code,
+      Cursor, Copilot and other skills-compatible agents.
+  - date: '2026-06-11'
+    slug: 2026-06-11-introducing-hashnode-pro
+    category: Feature
+    title: Introducing Hashnode Pro
+    api_impact: true
+    breaking: true
+    highlights: >-
+      One subscription per publication unlocking custom domains, GraphQL API
+      access, headless mode, AI assist, webhooks, GitHub backup, bulk markdown
+      import, branding removal, scheduled publishing, up to 10 publications, and
+      exclusion from automoderation deletion. Publications already using webhooks,
+      a custom domain, or GitHub backup are grandfathered.
+  - date: '2026-05-13'
+    slug: 2026-05-13-graphql-api-paid-access
+    category: Deprecated
+    title: GraphQL API is moving to a paid offering
+    api_impact: true
+    breaking: true
+    highlights: >-
+      Free GraphQL API access retired. Both reads and writes now require a Pro plan
+      on the target publication. Reason given: scrapers mirroring posts onto spam
+      farms and write traffic flooding the feed. Upgrading is self-serve and
+      allow-lists the publication automatically.
+  - date: '2026-02-28'
+    slug: 2026-02-28-forums
+    category: Feature
+    title: Introducing Hashnode Forums
+    api_impact: false
+  - date: '2026-02-24'
+    slug: 2026-02-24-a-fresh-new-look
+    category: Feature
+    title: A fresh new look for Hashnode
+    api_impact: false
+  - date: '2026-02-23'
+    slug: 2026-02-23-smarter-ai-writing-assistant
+    category: Improvement
+    title: Smarter AI writing assistant
+    api_impact: false
+  - date: '2026-02-22'
+    slug: 2026-02-22-profile-hover-cards
+    category: Feature
+    title: Profile hover cards
+    api_impact: false
+  - date: '2026-02-21'
+    slug: 2026-02-21-drafts-page-upgrades
+    category: Improvement
+    title: 'Drafts page: search, filters, and archive'
+    api_impact: false
+  - date: '2026-02-20'
+    slug: 2026-02-20-team-publications
+    category: Feature
+    title: Better team collaboration
+    api_impact: true
+    breaking: false
+    highlights: Contributors can submit drafts for review; admins can edit any post.
+  - date: '2026-02-19'
+    slug: 2026-02-19-feed-and-discovery
+    category: Improvement
+    title: Feed and discovery
+    api_impact: false
+  - date: '2026-02-18'
+    slug: 2026-02-18-seo-and-performance
+    category: Improvement
+    title: SEO and performance
+    api_impact: false
+
+gaps:
+  - >-
+    The production endpoint move from gql.hashnode.com to gql-beta.hashnode.com is
+    not in the changelog, despite being a hard break for every existing integration.
+  - >-
+    The retirement of apidocs.hashnode.com (now NXDOMAIN) is not in the changelog.
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,67 @@
+generated: '2026-08-13'
+method: searched
+source: https://github.com/Hashnode/gql-skill#agent-skill-vs-mcp-server-which-is-this
+status: none
+description: >-
+  Hashnode ships NO MCP server, and says so on the record. Its official agent
+  surface is an Agent Skill (skills/hashnode-gql-api.md), and its own FAQ explains
+  the choice: "This is a skill: a set of instructions and references the agent
+  loads into context, so it can call the GraphQL API directly with plain HTTP.
+  There is no extra server process, and it works in any skills-compatible agent."
+  This is a deliberate architectural decision by the provider, not a gap - recorded
+  here so the absence is a measured fact rather than an unchecked assumption.
+
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+  note: >-
+    No first-party hosted endpoint and no first-party stdio package exist. The
+    agent path Hashnode supports is `npx skills add Hashnode/gql-skill`, which
+    installs context for an agent to call GraphQL over HTTP itself - it starts no
+    server and is not MCP.
+
+tools: []
+
+official_agent_surface:
+  kind: agent-skill
+  artifact: skills/_index.yml
+  install: npx skills add Hashnode/gql-skill
+  transport: none - the agent makes plain HTTPS POSTs to the GraphQL endpoint
+
+third_party_servers:
+  note: >-
+    Community MCP servers wrapping the Hashnode GraphQL API exist. They are listed
+    for completeness only. None is published, endorsed, or maintained by Hashnode,
+    and none is counted as a Hashnode agent surface.
+  servers:
+    - name: "@kieksme/mcp-hashnode"
+      registry: npm
+      version: 1.1.1
+      published: '2026-06-26'
+      official: false
+    - name: hashnode-mcp
+      registry: npm
+      version: 1.0.1
+      published: '2025-11-04'
+      official: false
+    - name: sbmagar13/hashnode-mcp-server
+      registry: github
+      url: https://github.com/sbmagar13/hashnode-mcp-server
+      official: false
+
+x-evidence:
+  - url: https://raw.githubusercontent.com/Hashnode/gql-skill/main/README.md
+    http_status: 200
+    fetched: '2026-08-13'
+    note: contains the "Agent skill vs. MCP server" FAQ quoted above
+  - url: https://hashnode.com/changelog/2026-06-18-graphql-agent-skill
+    http_status: 200
+    fetched: '2026-08-13'
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

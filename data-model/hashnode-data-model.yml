@@ -1,0 +1,192 @@
+generated: '2026-08-13'
+method: derived
+source: graphql/hashnode-gql-api.graphql
+description: >-
+  Entity-relationship graph for the Hashnode content model, derived mechanically
+  from the GraphQL SDL and the live introspection response - object-typed fields
+  become relationships, Relay *Connection return types become has_many, and
+  singular object fields become has_one / belongs_to. Publication is the aggregate
+  root and the unit of both billing and authorization: the Pro gate is keyed to it,
+  not to the user.
+
+root_entity: Publication
+identifier:
+  type: ObjectId
+  encoding: MongoDB ObjectId rendered as a string
+  note: >-
+    Post is addressed by `ID` on the public `post` query, while publication-scoped
+    arguments use the `ObjectId` custom scalar. There is no readable id-prefix
+    scheme (no cus_/pub_ style prefixes) - an id alone does not tell you its type.
+
+entities:
+  - name: Publication
+    description: A blog. The billing unit, the authorization unit, and the aggregate root.
+    keys: [id, ObjectId]
+    lookup: "publication(id: ObjectId, host: String)"
+    gated: pro
+    relationships:
+      - {to: User, kind: has_one, via: author}
+      - {to: Post, kind: has_many, via: posts}
+      - {to: Post, kind: has_one, via: pinnedPost}
+      - {to: Series, kind: has_many, via: seriesList}
+      - {to: StaticPage, kind: has_many, via: staticPages}
+      - {to: PublicationMember, kind: has_many, via: members}
+      - {to: Draft, kind: has_many, via: drafts}
+      - {to: Draft, kind: has_many, via: scheduledDrafts}
+      - {to: Draft, kind: has_many, via: submittedDrafts}
+      - {to: PublicationInvite, kind: has_many, via: invites}
+      - {to: Widget, kind: has_many, via: widgets}
+      - {to: RedirectionRule, kind: has_many, via: redirectionRules}
+      - {to: DomainInfo, kind: has_one, via: domainInfo}
+      - {to: PublicationPreferences, kind: has_one, via: preferences}
+      - {to: PublicationIntegrations, kind: has_one, via: integrations}
+      - {to: PublicationFeatures, kind: has_one, via: features}
+      - {to: PublicationAeoSettings, kind: has_one, via: aeoSettings}
+      - {to: SEO, kind: has_one, via: seo}
+      - {to: OpenGraphMetaData, kind: has_one, via: ogMetaData}
+
+  - name: Post
+    description: A published article.
+    keys: [id, slug]
+    lookup: "post(id: ID!)"
+    gated: none
+    relationships:
+      - {to: Publication, kind: belongs_to, via: publication}
+      - {to: User, kind: belongs_to, via: author}
+      - {to: User, kind: has_many, via: coAuthors, note: 'max 4; must be publication members'}
+      - {to: Tag, kind: has_many, via: tags, note: 'referenced by slug; max 15'}
+      - {to: Series, kind: belongs_to, via: series}
+      - {to: Comment, kind: has_many, via: comments}
+      - {to: User, kind: has_many, via: likedBy}
+      - {to: Content, kind: has_one, via: content}
+      - {to: CoverImage, kind: has_one, via: coverImage}
+      - {to: PostFaqItem, kind: has_many, via: faq, note: 'AEO toolkit; renders FAQPage structured data'}
+      - {to: SEO, kind: has_one, via: seo}
+
+  - name: Draft
+    description: An unpublished article. Soft-deleted once published.
+    keys: [id]
+    lookup: "draft(id: ObjectId!)"
+    gated: auth+pro
+    relationships:
+      - {to: Publication, kind: belongs_to, via: publication}
+      - {to: User, kind: belongs_to, via: author}
+      - {to: User, kind: has_one, via: publishAs, note: team publications only}
+      - {to: User, kind: has_many, via: coAuthors}
+      - {to: Tag, kind: has_many, via: tags}
+      - {to: Series, kind: belongs_to, via: series}
+      - {to: DraftSettings, kind: has_one, via: settings}
+
+  - name: ScheduledPost
+    description: A draft queued for future publication.
+    keys: [id]
+    lookup: "scheduledPost(id: ObjectId!)"
+    gated: auth+pro
+    relationships:
+      - {to: Draft, kind: has_one, via: draft}
+      - {to: Publication, kind: belongs_to, via: publication}
+      - {to: User, kind: belongs_to, via: author}
+
+  - name: User
+    description: A Hashnode account and public profile. MyUser is the authenticated projection returned by `me`.
+    keys: [id, username]
+    lookup: "user(username: String!)"
+    gated: none
+    relationships:
+      - {to: Post, kind: has_many, via: posts}
+      - {to: Publication, kind: has_many, via: publications}
+      - {to: User, kind: has_many, via: followers}
+      - {to: User, kind: has_many, via: follows}
+      - {to: Badge, kind: has_many, via: badges}
+      - {to: SocialMediaLinks, kind: has_one, via: socialMediaLinks}
+
+  - name: Tag
+    description: A topic. Always referenced by slug; unknown tags are created on publish.
+    keys: [id, slug]
+    lookup: "tag(slug: String!)"
+    gated: none
+    relationships:
+      - {to: Post, kind: has_many, via: posts}
+
+  - name: Series
+    description: An ordered collection of posts within a publication.
+    keys: [id, slug]
+    gated: pro
+    relationships:
+      - {to: Post, kind: has_many, via: posts}
+      - {to: User, kind: belongs_to, via: author}
+
+  - name: Comment
+    description: A comment on a post, with nested replies.
+    keys: [id]
+    gated: none
+    relationships:
+      - {to: User, kind: belongs_to, via: author}
+      - {to: Comment, kind: has_many, via: replies}
+
+  - name: StaticPage
+    description: A non-article page attached to a publication.
+    keys: [id, slug]
+    gated: pro
+    relationships:
+      - {to: Publication, kind: belongs_to, via: staticPages}
+
+  - name: PublicationMember
+    description: A user's membership of a team publication, carrying the role.
+    keys: [id]
+    gated: pro
+    relationships:
+      - {to: User, kind: has_one, via: user}
+    enum: "UserPublicationRole [OWNER, EDITOR, CONTRIBUTOR]"
+
+  - name: DocumentationProject
+    description: A Hashnode Docs project - a separate product surface from publications.
+    keys: [id, host]
+    lookup: "documentationProject(id: ID, host: String)"
+    gated: none
+    relationships:
+      - {to: Guide, kind: has_many, via: guides}
+
+value_objects:
+  - name: Content
+    note: markdown and html projections of a body
+  - name: SEO
+    note: title and description; only values explicitly set, never a fallback
+  - name: OpenGraphMetaData
+    note: OG image overrides
+  - name: CoverImage
+    note: url, attribution, photographer, stickCoverToBottom
+  - name: PublicationAeoSettings
+    note: >-
+      isEnabled, llmsTxtEnabled and crawlers. Always resolves, with permissive
+      defaults for publications not on the Growth plan.
+  - name: AeoCrawlerSettings
+    note: per-bot allowances - gptBot, claudeBot, perplexityBot, googleExtended, ccBot
+  - name: PresignedPost
+    note: url plus a fields JSONObject, for the two-step S3 image upload
+
+connection_pattern:
+  spec: Relay
+  shape: "<Entity>Connection { edges { node cursor } pageInfo { hasNextPage endCursor } }"
+  connections:
+    - PostConnection
+    - FeedPostConnection
+    - SearchPostConnection
+    - PublicationConnection
+    - UserConnection
+    - SeriesConnection
+    - StaticPageConnection
+    - PublicationMemberConnection
+    - DraftConnection
+    - CommentConnection
+    - GuideConnection
+
+counts:
+  entities: 11
+  value_objects: 7
+  connection_types: 11
+  total_named_types: 123
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,92 @@
+generated: '2026-08-13'
+method: searched
+source: https://github.com/Hashnode
+description: >-
+  Client-side and embeddable surfaces Hashnode publishes. Hashnode's headless story
+  is a forkable Next.js starter kit rather than a drop-in embed library: there is no
+  hosted widget, no script-tag loader, and no embeddable dashboard. The one true
+  component library in the @hashnode scope, Matrix UI, is Hashnode's internal design
+  system published publicly, not an API-consuming widget set.
+
+families:
+  - name: Headless starter kits
+    kind: template
+    description: >-
+      Next.js applications that consume the Hashnode GraphQL API and render a
+      publication on a custom frontend. Forked and deployed, not installed.
+    components:
+      - name: starter-kit
+        url: https://github.com/Hashnode/starter-kit
+        official: true
+        stars: 648
+        last_push: '2025-01-13'
+        description: >-
+          The reference blog starter kit using Hashnode as a headless CMS through
+          the GraphQL API.
+      - name: hashnode-blogs-subpath
+        url: https://github.com/Hashnode/hashnode-blogs-subpath
+        official: true
+        last_push: '2024-11-22'
+        description: Starter kit variant that mounts the blog on a subpath.
+      - name: changelog-starter-kit
+        url: https://github.com/Hashnode/changelog-starter-kit
+        official: true
+        last_push: '2024-08-29'
+        description: Starter kit for rendering a changelog from Hashnode content.
+      - name: Hashnode-source-from-github-template
+        url: https://github.com/Hashnode/Hashnode-source-from-github-template
+        official: true
+        last_push: '2026-07-02'
+        description: >-
+          Boilerplate for using a GitHub repository as the content source for a
+          Hashnode publication.
+
+  - name: Design system
+    kind: react-component-library
+    description: React + Tailwind component library published by Hashnode.
+    loader: npm
+    components:
+      - name: "@hashnode/matrix-ui"
+        registry: npm
+        url: https://www.npmjs.com/package/@hashnode/matrix-ui
+        official: true
+        version: 0.2.85
+        published: '2025-03-19'
+        install: npm install @hashnode/matrix-ui
+        description: >-
+          "Matrix UI is a react + tailwind based component library by Hashnode."
+          A design system, not an API-bound widget set.
+
+  - name: Embeds
+    kind: embed-service
+    description: >-
+      Hashnode's open-source oEmbed-style service for rendering third-party
+      embeds inside articles.
+    components:
+      - name: webembeds
+        url: https://github.com/Hashnode/webembeds
+        official: true
+        stars: 30
+        last_push: '2024-09-24'
+
+  - name: Browser extensions
+    kind: browser-extension
+    components:
+      - name: hashnode-browser-extensions
+        url: https://github.com/Hashnode/hashnode-browser-extensions
+        official: true
+        last_push: '2023-01-03'
+        description: Chrome and Firefox extensions for Hashnode.
+
+not_published:
+  - No hosted embeddable widget or script-tag loader.
+  - No embedded analytics or dashboard component.
+  - No web components.
+
+x-evidence:
+  - {url: 'https://api.github.com/orgs/Hashnode/repos', http_status: 200, fetched: '2026-08-13'}
+  - {url: 'https://registry.npmjs.org/@hashnode%2Fmatrix-ui', http_status: 200, fetched: '2026-08-13'}
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

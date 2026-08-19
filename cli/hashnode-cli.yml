@@ -1,0 +1,62 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.npmjs.com/package/@hashnode/cli
+description: >-
+  Hashnode publishes a first-party CLI, but it is not a client for the content API.
+  `@hashnode/cli` targets Hashnode Docs (documentationProject): it verifies and
+  previews a local docs project before publishing. There is no CLI surface for
+  posts, drafts, publications, or the GraphQL API - the documented terminal path
+  for those is raw curl, or the agent skill.
+
+package: "@hashnode/cli"
+registry: npm
+official: true
+version: 0.0.6
+published: '2024-11-20'
+license: MIT
+binary: hashnode
+maturity: alpha
+maintenance_note: >-
+  The package README still says "currently under active development", but the last
+  publish was 2024-11-20 - before Hashnode Pro, before the paid API gate, and
+  before the gql-beta endpoint move. Treat it as unmaintained relative to the
+  current API.
+
+install:
+  - method: npm
+    command: npm install -g @hashnode/cli
+
+commands:
+  - group: docs
+    description: Entry point for Hashnode Docs commands.
+    usage: hashnode docs [command]
+    subcommands:
+      - name: verify
+        usage: hashnode docs verify [options]
+        description: Check local docs changes for errors before publishing.
+        options:
+          - {flag: '-c, --cwd <cwd>', description: 'Working directory. Defaults to the current directory.'}
+          - {flag: '-o, --write-file', description: 'Write the result to a file.'}
+        checks:
+          - Configuration errors
+          - Content errors
+          - Duplicated slugs
+          - Duplicated paths
+          - Missing files
+
+not_covered:
+  - Publishing or updating posts (use the GraphQL API or the agent skill)
+  - Draft management
+  - Publication management
+  - Token management
+
+related:
+  packages: packages/hashnode-packages.yml
+  skills: skills/_index.yml
+
+x-evidence:
+  - {url: 'https://registry.npmjs.org/@hashnode%2Fcli', http_status: 200, fetched: '2026-08-13'}
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

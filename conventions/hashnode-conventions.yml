@@ -1,0 +1,146 @@
+generated: '2026-08-13'
+method: searched
+source: https://github.com/Hashnode/gql-skill/tree/main/skills/gql-api
+description: >-
+  Cross-cutting runtime semantics for the Hashnode GraphQL API, taken from the
+  provider's own agent-skill reference set and confirmed against the live SDL.
+  The notable finding is a negative one: Hashnode publishes no idempotency
+  contract. Its write mutations (publishPost, createDraft, publishDraft) accept no
+  idempotency key and the schema declares no such input field, so a retried publish
+  creates a second post. That absence is recorded here deliberately and no
+  Idempotency pointer is emitted for this provider.
+
+transport:
+  protocol: GraphQL over HTTP
+  endpoint: https://gql-beta.hashnode.com/
+  methods: [POST]
+  content_type: application/json
+  body: '{ "query": "...", "variables": {...} }'
+  introspection: enabled and anonymous
+  server: Apollo Server
+
+authentication:
+  style: bearer token (Personal Access Token)
+  header: Authorization
+  prefix_optional: true
+  detail: authentication/hashnode-authentication.yml
+
+authorization:
+  layers:
+    - kind: role
+      values: [OWNER, EDITOR, CONTRIBUTOR]
+    - kind: subscription
+      rule: >-
+        Publication-scoped reads and every write mutation require the TARGET
+        publication to hold an active Pro plan. The gate is keyed to the
+        publication, not to the calling user.
+
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    No Idempotency-Key header, no client-supplied request id, and no idempotency
+    input field on any mutation in the SDL. Retrying publishPost or createDraft
+    after a timeout will create a duplicate. The only safe retry pattern the docs
+    describe is createDraft -> publishDraft, where the draft id makes the second
+    step naturally idempotent (the draft is soft-deleted on success, so a repeat
+    publishDraft fails rather than duplicating).
+
+pagination:
+  style: cursor
+  spec: Relay-style connections
+  request_params: [first, after]
+  response_fields: [edges, edges.node, edges.cursor, pageInfo.hasNextPage, pageInfo.endCursor]
+  caps:
+    default_connections: 100
+    draft_connections: 50
+  cap_behavior: >-
+    Requests above the cap are silently clamped rather than rejected - a client
+    asking for 500 gets 100 with no error, so never infer completeness from a
+    short page.
+  loop: pass pageInfo.endCursor as the next `after`; stop when hasNextPage is false.
+
+query_shaping:
+  max_depth: 10
+  depth_behavior: deeper queries are rejected
+  field_selection: native GraphQL selection sets - no sparse-fieldset or expand parameters
+  batching: not documented
+
+request_limits:
+  body_size: 100 KB
+  image_upload: 8 MB, image/* only, SVG rejected
+  tags_per_post: 15
+  co_authors_per_post: 4
+
+caching:
+  query_ttl_seconds: 25
+  mutation_caching: none
+  consistency: >-
+    Read-after-write may return stale data for up to ~25 seconds. Do not verify a
+    mutation by immediately re-reading.
+
+versioning:
+  scheme: none
+  detail: >-
+    No version in the path, header, or media type. One continuously evolving
+    schema, with field-level @deprecated as the change mechanism (for example
+    Publication.descriptionSEO deprecated in favor of seo.description).
+  detail_artifact: lifecycle/hashnode-lifecycle.yml
+
+error_envelope:
+  shape: GraphQL errors array with extensions.code
+  http_status_on_error: 200
+  detail: errors/hashnode-error-codes.yml
+
+rate_limit_signaling:
+  headers: none documented
+  enforcement: not currently enforced by the server
+  detail: rate-limits/hashnode-rate-limits.yml
+
+request_tracing:
+  request_id_header: none documented
+
+content_negotiation:
+  markdown_surface:
+    supported: true
+    since: '2026-06-23'
+    methods:
+      - append `.md` to any article URL
+      - send `Accept: text/markdown` to the normal article URL
+    returns: the article's source markdown, title included
+    note: >-
+      A read surface aimed explicitly at LLMs and agents, served by the
+      publication host rather than the GraphQL endpoint. Browser visits still
+      get HTML.
+    source: https://hashnode.com/changelog/2026-06-23-posts-as-markdown
+
+url_construction:
+  rule: >-
+    Build hashnode.com links from API data; never guess. Legacy schemes
+    (/discussions/post/<id>, id-only, slug-only) return 404.
+  formats:
+    post_discussion: https://hashnode.com/posts/<slug>/<postId>
+    comment_permalink: https://hashnode.com/posts/<slug>/<postId>/comment/<commentId>
+    user_profile: https://hashnode.com/@<username>
+    post_on_own_blog: use the post's `url` field, which already resolves custom domain vs <username>.hashnode.dev
+
+file_upload:
+  pattern: two-step presigned S3 POST
+  step_1: createImageUploadURL mutation returns presignedPost { url, fields }
+  step_2: multipart POST the file directly to presignedPost.url with every entry from fields, file last
+  step_3: the servable URL is https://cdn.hashnode.com/<fields.key>
+  warning: >-
+    Do not use the raw S3 object URL - it bypasses the image resize pipeline and
+    may stop resolving.
+
+custom_scalars:
+  - name: DateTime
+    encoding: ISO 8601 string
+  - name: ObjectId
+    encoding: MongoDB ObjectId as a string
+  - name: JSONObject
+    encoding: arbitrary JSON object
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

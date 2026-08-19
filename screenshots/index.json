@@ -6,5 +6,14 @@
     "source_type": "Website",
     "file": "hashnode-2026-06-20T182534.png",
     "bytes": 16244
+  },
+  {
+    "repo": "hashnode",
+    "captured_at": "2026-08-17T083521",
+    "source_url": "https://github.com/Hashnode/gql-skill",
+    "source_type": "DeveloperPortal",
+    "file": "hashnode-2026-08-17T083521.png",
+    "bytes": 120880,
+    "capture": "playwright-local"
   }
 ]

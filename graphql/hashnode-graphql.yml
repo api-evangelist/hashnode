@@ -1,0 +1,91 @@
+generated: '2026-08-13'
+method: probed
+source: https://gql-beta.hashnode.com/
+description: >-
+  Machine-readable contract for the Hashnode Public GraphQL API. Hashnode publishes
+  no OpenAPI; GraphQL is the whole contract. The SDL saved here is the file Hashnode
+  itself distributes in its official agent-skill repo, and it was independently
+  confirmed by an anonymous introspection query against the live production endpoint
+  on 2026-08-13.
+
+endpoint:
+  production: https://gql-beta.hashnode.com/
+  method: POST
+  content_type: application/json
+  introspection: enabled
+  introspection_auth: none
+  note: >-
+    The legacy endpoint https://gql.hashnode.com now returns HTTP 301 on every
+    request (GET and POST, with or without an Authorization header) to
+    https://hashnode.com/announcements/graphql-api. The live endpoint is
+    gql-beta.hashnode.com, named as Production in the provider's own SKILL.md.
+
+files:
+  - file: hashnode-gql-api.graphql
+    kind: sdl
+    method: searched
+    source: https://raw.githubusercontent.com/Hashnode/gql-skill/main/skills/gql-api/references/schema.graphql
+    note: >-
+      Verbatim first-party SDL. Hashnode describes it as "the full SDL
+      (introspection schema) from gql-beta" and generates it from the API's own
+      schema in the private Hashnode/gql repo.
+  - file: hashnode-introspection.json
+    kind: introspection-result
+    method: probed
+    source: https://gql-beta.hashnode.com/
+    note: >-
+      Raw anonymous introspection response captured 2026-08-13. Confirms the
+      published SDL: 123 named types, 13 root queries, 9 root mutations,
+      no subscription type.
+
+surface:
+  types: 123
+  objects: 92
+  input_objects: 20
+  enums: 4
+  custom_scalars: [DateTime, ObjectId, JSONObject]
+  subscriptions: null
+  queries:
+    - me
+    - post
+    - publication
+    - user
+    - tag
+    - feed
+    - draft
+    - scheduledPost
+    - checkCustomDomainAvailability
+    - checkSubdomainAvailability
+    - searchPostsOfPublication
+    - topCommenters
+    - documentationProject
+  mutations:
+    - publishPost
+    - updatePost
+    - createDraft
+    - updateDraft
+    - publishDraft
+    - submitDraftForReview
+    - rejectDraftSubmission
+    - deleteDraft
+    - createImageUploadURL
+
+x-evidence:
+  - url: https://gql-beta.hashnode.com/
+    method: POST
+    http_status: 200
+    note: anonymous introspection succeeded
+    fetched: '2026-08-13'
+  - url: https://gql.hashnode.com/
+    method: POST
+    http_status: 301
+    redirect: https://hashnode.com/announcements/graphql-api
+    fetched: '2026-08-13'
+  - url: https://apidocs.hashnode.com/
+    http_status: 0
+    note: NXDOMAIN - the documentation host named in every third-party write-up no longer resolves
+    fetched: '2026-08-13'
+
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
