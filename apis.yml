@@ -11,6 +11,17 @@ description: >-
   and every write mutation requires the target publication to hold an active
   Hashnode Pro plan. Hashnode publishes no OpenAPI and no MCP server, shipping an
   official Agent Skill instead.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-service
