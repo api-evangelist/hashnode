@@ -64,56 +64,129 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Hashnode is a blogging platform for developers that enables technical writers and developers to create and publish content on custom domains while building an audience within the developer community. It provides a rich writing experience, publication management, and community features tailored to the developer ecosystem.
+Hashnode is a blogging platform for developers and engineering teams, offering publications on a custom domain, a headless CMS mode, and a public GraphQL API covering posts, drafts, publications, users, tags, series, comments and documentation projects. The API is a single GraphQL endpoint with anonymous introspection; authentication is a Personal Access Token in the Authorization header, with no OAuth and no scopes. Since 13 May 2026 the API has been a paid feature - anonymous public reads still work, but every publication-scoped read and every write mutation requires the target publication to hold an active Hashnode Pro plan. Hashnode publishes no OpenAPI and no MCP server, shipping an official Agent Skill instead.
 
-**URL:** [https://hashnode.com/](https://hashnode.com/)
+**Areas:** Blogging · Developer Platform · GraphQL · Content Management · Publications · Newsletters · Headless CMS · Agent Skills · Developer Community · Documentation
 
-## Scope
+## Hashnode on APIs.io
 
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for Hashnode is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/hashnode/](https://apis.io/providers/hashnode/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (1)
 
-- Blogging, Developer Community, Content
+- [Hashnode GraphQL API](https://apis.io/apis/hashnode/hashnode-graphql-api/) — The Hashnode Public API is a GraphQL API that queries publication data, manages posts and drafts, and creates content via mutations. All requests are POSTed…
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-24
-- **Modified:** 2026-04-28
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### AsyncAPI (1)
 
-### Hashnode API
+Event-driven and webhook contracts.
 
-The Hashnode API is a GraphQL API that allows developers to interact with the Hashnode blogging platform, manage posts, publications, and user data.
+- [Hashnode Webhooks](https://apis.io/asyncapis/hashnode/hashnode-webhooks/)
 
-**Human URL:** [https://apidocs.hashnode.com/](https://apidocs.hashnode.com/)
+#### GraphQL (1)
 
-#### Tags
+GraphQL schemas.
 
-- Blogging, Content, GraphQL
+- [Hashnode GraphQL API](https://apis.io/graphqls/hashnode/hashnode-graphql/)
 
-#### Properties
+#### Security (3)
 
-- [Documentation](https://apidocs.hashnode.com/)
+Authentication, trust centre, and vulnerability disclosure.
 
-## Common Properties
+- [Hashnode Authentication](https://apis.io/security/hashnode/hashnode-authentication/)
+- [Hashnode Domain Security](https://apis.io/security/hashnode/hashnode-domain-security/)
+- [Hashnode Vulnerability Disclosure](https://apis.io/security/hashnode/hashnode-vulnerability-disclosure/)
 
-- [Website](https://hashnode.com/)
-- [Documentation](https://apidocs.hashnode.com/)
-- [Blog](https://hashnode.com/blog)
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Hashnode Plans Pricing](https://apis.io/plans/hashnode/hashnode-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Hashnode Rate Limits](https://apis.io/rate-limits/hashnode/hashnode-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Hashnode Finops](https://apis.io/finops/hashnode/hashnode-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://hashnode.com)
+- [Documentation](https://github.com/Hashnode/gql-skill/tree/main/skills/gql-api)
+- [Getting started](https://github.com/Hashnode/gql-skill#using-the-api-directly)
+- [API reference](https://github.com/Hashnode/gql-skill/blob/main/skills/gql-api/references/queries.md)
+- [Pricing](https://hashnode.com/pro)
+- [Sign up](https://hashnode.com/signup)
+- [Support](https://hashnode.com/support)
 - [Changelog](https://hashnode.com/changelog)
-- [PrivacyPolicy](https://hashnode.com/privacy-policy)
-- [TermsOfService](https://hashnode.com/terms)
-- [Support](https://support.hashnode.com/)
-- [GitHubOrg](https://github.com/hashnode)
-- [Discord](https://discord.gg/hashnode)
-- [X](https://twitter.com/hashnode)
+- [Blog](https://hashnode.com/blog)
+- [Terms of service](https://hashnode.com/terms)
+- [Privacy policy](https://hashnode.com/privacy-policy)
+- [GitHub](https://github.com/Hashnode)
+- [Status](https://status.hashnode.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
+**Kin Score 56.9** — strong · rubric 0.25.0 · scored 2026-10-23
 
-**Email:** kin@apievangelist.com
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 46.9 |
+| Contract governance | 4.5 |
+| Operational transparency | 63.2 |
+| Developer ergonomics | 78.6 |
+| Access clarity | 63.2 |
+
+**Agent readiness 28.8** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/hashnode/](https://apis.io/providers/hashnode/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Hashnode: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/hashnode/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
