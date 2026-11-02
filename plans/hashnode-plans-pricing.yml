@@ -1,0 +1,65 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://hashnode.com/pro
+sources:
+- https://hashnode.com/pro
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T141238
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-28'
+published: true
+note: Pricing page for Hashnode Pro/Growth subscription tiers; Pro includes GraphQL API access. Prices
+  shown with spacing variants on page ($ 5 / month, $ 50 / year).
+plan_count: 2
+currency: USD
+plans:
+- name: Pro
+  price_text: $5 / month · $50 / year (2 months free)
+  currency: USD
+  period: month
+  unit: per seat / per publication
+  included_quota: Custom domain, GraphQL API access, headless mode, AI editor tools, webhooks, agent skill,
+    GitHub backup, bulk markdown import, hide branding, scheduled publishing, up to 10 publications
+- name: Growth
+  price_text: $ 34 / month
+  price: 34
+  currency: USD
+  period: month
+  unit: per seat
+  included_quota: Everything in Pro, plus the AEO toolkit; $340 / year; each extra seat is $5 / month
+  overage: Each extra seat is $ 5 / month
+rate_limit_statements:
+- Track up to 10 questions your readers ask AI engines
+- Add up to 10 question-and-answer pairs per article
+- Up to 10 publications
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - seat
+  units:
+  - seat
+  plans:
+  - name: Pro
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Growth
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
