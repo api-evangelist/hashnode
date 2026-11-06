@@ -40,7 +40,7 @@ rate_limit_statements:
 - Add up to 10 question-and-answer pairs per article
 - Up to 10 publications
 x-canonical:
-  generated: '2026-11-02'
+  generated: '2026-11-06'
   vocabulary: engine/economics/plans-canonical.yml
   models:
   - seat
